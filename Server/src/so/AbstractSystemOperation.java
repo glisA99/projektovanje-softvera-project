@@ -1,7 +1,9 @@
 package so;
 
+import connection.ConnectionFactory;
 import db.DatabaseRepository;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *
@@ -12,16 +14,18 @@ public abstract class AbstractSystemOperation<T> {
     protected DatabaseRepository repository;
     protected Connection connection;
 
-    public AbstractSystemOperation() {
-//        this.repository = new DatabaseRepository
+    public AbstractSystemOperation() throws Exception {
+        Connection _connection = ConnectionFactory.getInstance().getConnection();
+        this.repository = new DatabaseRepository(_connection);
+        this.connection = _connection;
     }
 
     // Template method for executing system operation
-    public final void execute(T param) throws Exception {
+    public final void execute(T entity) throws Exception {
         try {
             precondition();
             startTransaction();
-            executeOperation(param);
+            executeOperation(entity);
             commitTransaction();
         } catch (Exception ex) {
             rollbackTransaction();
@@ -31,16 +35,16 @@ public abstract class AbstractSystemOperation<T> {
     protected abstract void precondition()throws Exception;
     protected abstract void executeOperation(T param) throws Exception;
 
-    private void startTransaction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void startTransaction() throws SQLException {
+        connection.setAutoCommit(false);
     }
 
-    private void commitTransaction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void commitTransaction() throws SQLException {
+        connection.commit();
     }
 
-    private void rollbackTransaction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void rollbackTransaction() throws SQLException {
+        connection.rollback();
     }
 
 }
