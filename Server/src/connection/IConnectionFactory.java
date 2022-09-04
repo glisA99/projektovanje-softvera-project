@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public interface IConnectionFactory {
     
     Connection getConnection() throws SQLException;
-    boolean releaseConnection(Connection connection);
+    boolean releaseConnection(Connection connection) throws SQLException;
     void shutdown() throws SQLException;
     
 }

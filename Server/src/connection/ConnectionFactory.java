@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package connection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import configuration.DbConfigurationParser;
+import configuration.DbAccessParams;
 
 /**
  *
@@ -17,30 +14,38 @@ public class ConnectionFactory implements IConnectionFactory {
     private IConnectionPool connectionPool;
     private static ConnectionFactory instance;
     
-    private ConnectionFactory() {
-        
+    private ConnectionFactory() throws Exception {
+        DbConfigurationParser parser = DbConfigurationParser.getInstance();
+        DbAccessParams params = parser.parseConfiguration();
+        String url = params.getUrl();
+        String user = params.getUser();
+        String password = params.getPassword();
+        IConnectionPool pool = ConnectionPool.create(url, user, password);
+        this.connectionPool = pool;
     }
     
-    public static ConnectionFactory getInstance() {
+    public static ConnectionFactory getInstance() throws Exception {
         if (instance == null) {
-            
+            instance = new ConnectionFactory();
         } 
         return instance;
     }
 
     @Override
     public Connection getConnection() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.connectionPool.getConnection();
     }
 
     @Override
-    public boolean releaseConnection(Connection connection) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean releaseConnection(Connection connection) throws SQLException {
+        return this.connectionPool.releaseConnection(connection);
     }
 
     @Override
     public void shutdown() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.connectionPool.shutdown();
+        // SET INSTANCE AS NULL TO BE RECREATED ON NEXT SERVER START
+        instance = null;
     }
 
     
