@@ -36,7 +36,7 @@ public class ConnectionPool implements IConnectionPool {
     }
     
     private static Connection createConnection(String url,String user, String password) throws SQLException {
-        Connection connection =  DriverManager.getConnection(url,user, password);
+        Connection connection =  DriverManager.getConnection(url + "?serverTimezone=UTC",user, password);
         connection.setAutoCommit(false);
         return connection;
     }

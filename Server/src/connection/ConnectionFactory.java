@@ -23,7 +23,7 @@ public class ConnectionFactory implements IConnectionFactory {
     
     public static ConnectionFactory getInstance() {
         if (instance == null) {
-            connectionPool = ConnectionPool.create(url, user, password);
+            
         } 
         return instance;
     }

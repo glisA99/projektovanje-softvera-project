@@ -4,7 +4,7 @@ package so;
  *
  * @author Ognjen Simic 2018/0093
  */
-public abstract class AbstractSO<T> {
+public abstract class AbstractSystemOperation<T> {
 
     public final void execute(T param) throws Exception {
         try {
