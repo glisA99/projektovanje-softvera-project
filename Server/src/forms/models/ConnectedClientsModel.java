@@ -12,7 +12,7 @@ import utility.ClientStatistic;
 public class ConnectedClientsModel extends AbstractTableModel {
     
     private List<ClientStatistic> ClientStatistic;
-    private String[] columnNames = new String[] { "RB", "Date&Time connected", "Radnik", "Total requests", "Successfull requests", "Failure requests" };
+    private String[] columnNames = new String[] { "RB", "Date&Time connected", "Employee", "Total requests", "Successfull requests", "Failure requests" };
     
     public ConnectedClientsModel(List<ClientStatistic> ClientStatistic) {
         this.ClientStatistic = ClientStatistic;
@@ -32,6 +32,8 @@ public class ConnectedClientsModel extends AbstractTableModel {
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return false;
     }
+    
+    
     
     @Override
     public Object getValueAt(int arg0, int arg1) {
@@ -54,6 +56,13 @@ public class ConnectedClientsModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         return String.class;
     }
+
+    @Override
+    public String getColumnName(int column) {
+        return this.columnNames[column];
+    }
+    
+    
 
     public List<ClientStatistic> getClientStatistic() {
         return ClientStatistic;
