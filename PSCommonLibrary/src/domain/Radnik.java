@@ -115,6 +115,11 @@ public class Radnik implements IEntity, Serializable {
     public void setPlata(BigDecimal plata) {
         this.plata = plata;
     }
+
+    @Override
+    public String toString() {
+        return this.ime + " " + this.prezime;
+    }
     
     
     
