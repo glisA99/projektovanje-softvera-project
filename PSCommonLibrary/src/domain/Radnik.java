@@ -17,17 +17,23 @@ public class Radnik implements IEntity, Serializable {
     private String prezime;
     private Date datumPocetkaRada;
     private BigDecimal plata;
+    private String username;
+    private String password;
 
     public Radnik() {
     }
 
-    public Radnik(String jmbg, String ime, String prezime, Date datumPocetkaRada, BigDecimal plata) {
+    public Radnik(String jmbg, String ime, String prezime, Date datumPocetkaRada, BigDecimal plata, String username, String password) {
         this.jmbg = jmbg;
         this.ime = ime;
         this.prezime = prezime;
         this.datumPocetkaRada = datumPocetkaRada;
         this.plata = plata;
+        this.username = username;
+        this.password = password;
     }
+    
+    
 
     @Override
     public String getTableName() {
@@ -115,6 +121,24 @@ public class Radnik implements IEntity, Serializable {
     public void setPlata(BigDecimal plata) {
         this.plata = plata;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    
 
     @Override
     public String toString() {

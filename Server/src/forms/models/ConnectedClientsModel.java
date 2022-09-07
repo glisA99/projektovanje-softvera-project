@@ -1,6 +1,7 @@
 package forms.models;
 
 import domain.Radnik;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import utility.ClientStatistic;
@@ -12,7 +13,8 @@ import utility.ClientStatistic;
 public class ConnectedClientsModel extends AbstractTableModel {
     
     private List<ClientStatistic> ClientStatistic;
-    private String[] columnNames = new String[] { "RB", "Date&Time connected", "Employee", "Total requests", "Successfull requests", "Failure requests" };
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
+    private String[] columnNames = new String[] { "RB", "Time connected", "Employee", "Total requests", "Successfull requests", "Failure requests" };
     
     public ConnectedClientsModel(List<ClientStatistic> ClientStatistic) {
         this.ClientStatistic = ClientStatistic;
@@ -33,14 +35,12 @@ public class ConnectedClientsModel extends AbstractTableModel {
         return false;
     }
     
-    
-    
     @Override
     public Object getValueAt(int arg0, int arg1) {
         ClientStatistic clientStatistic = ClientStatistic.get(arg0);
         switch(arg1) {
             case 0: return arg0 + 1;
-            case 1: return clientStatistic.getDateTimeConnected();
+            case 1: return simpleDateFormat.format(clientStatistic.getDateTimeConnected());
             case 2: 
                 Radnik radnik = clientStatistic.getLoggedRadnik();
                 if (radnik == null) return "NOT LOGGED";
@@ -61,8 +61,6 @@ public class ConnectedClientsModel extends AbstractTableModel {
     public String getColumnName(int column) {
         return this.columnNames[column];
     }
-    
-    
 
     public List<ClientStatistic> getClientStatistic() {
         return ClientStatistic;
