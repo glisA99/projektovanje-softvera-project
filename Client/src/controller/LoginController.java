@@ -1,7 +1,10 @@
 package controller;
 
 import communication.Operations;
+import communication.Receiver;
 import communication.Request;
+import communication.Response;
+import communication.ResponseType;
 import communication.Sender;
 import domain.Radnik;
 import forms.FrmLogin;
@@ -10,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import session.Session;
 
 /**
  *
@@ -34,7 +38,8 @@ public class LoginController {
                 String password = String.valueOf(pswd.getPassword());
                 try {
                     validate(username,password);
-                    login(username, password);
+                    Radnik radnik = login(username, password);
+                    JOptionPane.showMessageDialog(loginForm, "Welcome, " + radnik.getIme() + "!");
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     txtUsername.setText("");
@@ -50,7 +55,7 @@ public class LoginController {
         if (password.length() == 0) throw new Exception("Password can not be empty!");
     }
     
-    private void login(String username, String password) throws Exception {
+    private Radnik login(String username, String password) throws Exception {
         // create request object
         Request request = new Request();
         request.setOperation(Operations.LOGIN);
@@ -59,8 +64,22 @@ public class LoginController {
         radnik.setUsername(username);
         radnik.setPassword(password);
         
-        // create sender object
-        Sender sender = new Sender();
+        // create sender object and send request object
+        session.Session session = Session.getInstance();
+        Sender sender = new Sender(session.getSocket());
+        sender.send(request);
+        
+        // read response
+        Receiver receiver = new Receiver(session.getSocket());
+        Response response = (Response) receiver.receive();
+        
+        if (response.getResponseType().equals(ResponseType.FAILURE)) {
+            throw new Exception(response.getException().getMessage());
+        }
+        // else
+        Radnik r = (Radnik) response.getResponse();
+        session.setLoggedRadnik(r);
+        return r;
     }
     
 }
