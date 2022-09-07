@@ -1,5 +1,6 @@
 package main;
 
+import controller.LoginController;
 import forms.FrmLogin;
 
 /**
@@ -9,7 +10,9 @@ import forms.FrmLogin;
 public class Client {
 
     public static void main(String[] args) {
-        new FrmLogin().setVisible(true);
+        FrmLogin frm = new FrmLogin();
+        frm.setVisible(true);
+        new LoginController(frm);
     }
     
 }

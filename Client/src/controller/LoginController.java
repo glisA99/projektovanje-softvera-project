@@ -10,6 +10,9 @@ import domain.Radnik;
 import forms.FrmLogin;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -26,6 +29,15 @@ public class LoginController {
     public LoginController(FrmLogin loginForm) {
         this.loginForm = loginForm;
         prepareLoginView();
+        try {
+            initializeSession();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(loginForm, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            // disable button if connection is not established
+            this.loginForm.getBtnLogin().setEnabled(false);
+            this.loginForm.getLblError().setText("Connection with server not established...");
+        }
     }
 
     private void prepareLoginView() {
@@ -80,6 +92,10 @@ public class LoginController {
         Radnik r = (Radnik) response.getResponse();
         session.setLoggedRadnik(r);
         return r;
+    }
+
+    private void initializeSession() throws IOException {
+        Session.getInstance();
     }
     
 }
