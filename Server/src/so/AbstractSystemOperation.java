@@ -14,6 +14,7 @@ public abstract class AbstractSystemOperation<T> {
     
     protected DatabaseRepository repository;
     protected Connection connection;
+    public Object operationResult;
 
     public AbstractSystemOperation() throws Exception {
         Connection _connection = ConnectionFactory.getInstance().getConnection();
@@ -32,35 +33,10 @@ public abstract class AbstractSystemOperation<T> {
             rollbackTransaction();
         }
     }
-    
-    // Template method for executing system operation
-    public final void execute(T entity, List<T> entities) throws Exception {
-        try {
-            precondition();
-            startTransaction();
-            executeOperation(entity, entities);
-            commitTransaction();
-        } catch (Exception ex) {
-            rollbackTransaction();
-        }
-    }
-    
-    // Template method for executing system operation
-    public final void execute(T entity, Object params) throws Exception {
-        try {
-            precondition();
-            startTransaction();
-            executeOperation(entity, params);
-            commitTransaction();
-        } catch (Exception ex) {
-            rollbackTransaction();
-        }
-    }
 
+    
     protected abstract void precondition()throws Exception;
     protected abstract void executeOperation(T entity) throws Exception;
-    protected abstract void executeOperation(T entity, List<T> entities) throws Exception;
-    protected abstract void executeOperation(T entity, Object param) throws Exception;
     
 
     private void startTransaction() throws SQLException {
