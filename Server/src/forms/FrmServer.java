@@ -28,6 +28,7 @@ import threads.ServerThreadImpl;
 public class FrmServer extends javax.swing.JFrame {
     
     private ServerThread serverThread;
+    private int serverPort;
 
     /**
      * Creates new form FrmServer
@@ -52,6 +53,7 @@ public class FrmServer extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel12 = new javax.swing.JLabel();
         tabServer = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -60,6 +62,7 @@ public class FrmServer extends javax.swing.JFrame {
         tblConnectedClients = new javax.swing.JTable();
         btnDisconnectClient = new javax.swing.JButton();
         lblTableRefreshed = new javax.swing.JLabel();
+        lblNumberOfClients = new javax.swing.JLabel();
         btnStartServer = new javax.swing.JButton();
         btnStopServer = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
@@ -94,6 +97,8 @@ public class FrmServer extends javax.swing.JFrame {
         btnTestPort = new javax.swing.JButton();
         btnSaveChangesServer = new javax.swing.JButton();
 
+        jLabel12.setText("jLabel12");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Connected clients: ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
@@ -124,19 +129,22 @@ public class FrmServer extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(lblTableRefreshed, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDisconnectClient, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnDisconnectClient, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNumberOfClients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblNumberOfClients)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDisconnectClient)
                     .addComponent(lblTableRefreshed))
-                .addGap(0, 3, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         btnStartServer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -172,10 +180,10 @@ public class FrmServer extends javax.swing.JFrame {
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                     .addComponent(txtServerPortStatus))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,7 +221,7 @@ public class FrmServer extends javax.swing.JFrame {
                             .addComponent(btnStartServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
                         .addGap(52, 52, 52)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblTrenutnoVreme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -506,6 +514,7 @@ public class FrmServer extends javax.swing.JFrame {
         try {
             // start server thread
             ServerInitParams pps = getConfigurationPort();
+            this.serverPort = pps.getPort();
             ServerThread serverThread = new ServerThreadImpl(pps.getPort());
             this.serverThread = serverThread;
             this.serverThread.start();
@@ -518,6 +527,7 @@ public class FrmServer extends javax.swing.JFrame {
             btnStopServer.setEnabled(true);
             btnStartServer.setEnabled(false);
             disableConfiguration();
+            populateStartData();
             
         } catch (Exception ex) {
             Logger.getLogger(FrmServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -538,6 +548,7 @@ public class FrmServer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -555,6 +566,7 @@ public class FrmServer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNumberOfClients;
     private javax.swing.JLabel lblTableRefreshed;
     private javax.swing.JLabel lblTrenutnoVreme;
     private javax.swing.JTabbedPane tabServer;
@@ -643,5 +655,25 @@ public class FrmServer extends javax.swing.JFrame {
         btnSaveChangesDb.setEnabled(false);
         btnSaveChangesServer.setEnabled(false);
         btnTestPort.setEnabled(false);
+    }
+    
+    private void enableConfiguration() {
+        txtRDBMSType.setEditable(true);
+        txtHost.setEditable(true);
+        txtPort.setEditable(true);
+        txtDBName.setEditable(true);
+        txtUsername.setEditable(true);
+        txtPassword.setEditable(true);
+        btnTestConnection.setEnabled(true);
+        btnSaveChangesDb.setEnabled(true);
+        btnSaveChangesServer.setEnabled(true);
+        btnTestPort.setEnabled(true);
+    }
+
+    private void populateStartData() {
+        txtStatus.setText("Server is up and running...");
+        txtStatus.setForeground(Color.green);
+        txtServerPortStatus.setText("Server is listening on port " + this.serverPort + "...");
+        txtServerPortStatus.setForeground(Color.green);
     }
 }

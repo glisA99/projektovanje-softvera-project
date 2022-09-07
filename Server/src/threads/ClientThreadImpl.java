@@ -18,8 +18,8 @@ import login.so.LoginSO;
  */
 public class ClientThreadImpl extends ClientThread {
 
-    public ClientThreadImpl(Socket socket) {
-        super(socket);
+    public ClientThreadImpl(Socket socket, ServerThread serverThread) {
+        super(socket,serverThread);
     }
 
     @Override
@@ -38,6 +38,8 @@ public class ClientThreadImpl extends ClientThread {
                 System.out.println("Client request failed...");
             }
         }
+        System.out.println("Client disconnected...");
+        this.serverThread.disconnectClient(this);
     }
 
     private Response handleRequest(Request request) {

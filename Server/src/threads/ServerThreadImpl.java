@@ -21,7 +21,7 @@ public class ServerThreadImpl extends ServerThread {
                 Socket socket = serverSocket.accept();
                 System.out.println("New client connected with server...");
                 
-                ClientThread clientThread = new ClientThreadImpl(socket);
+                ClientThread clientThread = new ClientThreadImpl(socket, this);
                 this.clients.add(clientThread);
             }
         } catch (IOException ex) {

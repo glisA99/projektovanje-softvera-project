@@ -29,4 +29,8 @@ public abstract class ServerThread extends Thread {
         return this.clients;
     }
     
+    public void disconnectClient(ClientThread clientThread) {
+        this.clients.remove(clientThread);
+    }
+    
 }
