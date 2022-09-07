@@ -1,5 +1,6 @@
-package connection;
+package utility;
 
+import connection.*;
 import configuration.DbAccessParams;
 import java.sql.DriverManager;
 import java.sql.Connection;

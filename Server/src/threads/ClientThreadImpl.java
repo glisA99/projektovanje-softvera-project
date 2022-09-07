@@ -7,6 +7,7 @@ import static communication.Operations.*;
 import communication.ResponseType;
 import communication.Sender;
 import domain.Radnik;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,13 +27,24 @@ public class ClientThreadImpl extends ClientThread {
     public void run() {
         while(!this.socket.isClosed()) {
             try {
-                Request request = (Request) new Receiver(socket).receive();
+                Request request = null;
+                try {
+                    request = (Request) new Receiver(socket).receive();
+                } catch (Exception ex) {
+                    this.socket.close();
+                    System.out.println("Closing client socket...");
+                }
                 System.out.println("Receiver request from client... Operation type: " + request.getOperation());
                 Response response = handleRequest(request);
                 new Sender(socket).send(response);
                 this.clientStatistic.addRequest(ResponseType.SUCCESS);
                 System.out.println("Client request handled sucessfully...");
             } catch (Exception ex) {
+                try {
+                    this.socket.close();
+                } catch (IOException ex1) {
+                    Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex);
                 this.clientStatistic.addRequest(ResponseType.FAILURE);
                 System.out.println("Client request failed...");

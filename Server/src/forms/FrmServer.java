@@ -5,7 +5,7 @@ import configuration.DbConfigurationParser;
 import static configuration.ConfigurationConstants.*;
 import configuration.ServerConfigurationParser;
 import configuration.ServerInitParams;
-import connection.TestConnection;
+import utility.TestConnection;
 import forms.models.ConnectedClientsModel;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import threads.ClockThread;
 import threads.RefreshThread;
 import threads.ServerThread;
 import threads.ServerThreadImpl;
+import utility.PortUtility;
 
 /**
  *
@@ -96,6 +97,7 @@ public class FrmServer extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnTestPort = new javax.swing.JButton();
         btnSaveChangesServer = new javax.swing.JButton();
+        lblPortAvailable = new javax.swing.JLabel();
 
         jLabel12.setText("jLabel12");
 
@@ -368,8 +370,15 @@ public class FrmServer extends javax.swing.JFrame {
         jLabel5.setText("PORT:");
 
         btnTestPort.setText("Test port availability");
+        btnTestPort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTestPortActionPerformed(evt);
+            }
+        });
 
         btnSaveChangesServer.setText("Save changes");
+
+        lblPortAvailable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -377,14 +386,17 @@ public class FrmServer extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnSaveChangesServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTestPort, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnSaveChangesServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTestPort, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPortAvailable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -395,7 +407,9 @@ public class FrmServer extends javax.swing.JFrame {
                     .addComponent(txtServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(btnTestPort)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTestPort)
+                    .addComponent(lblPortAvailable))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSaveChangesServer)
                 .addGap(17, 17, 17))
@@ -535,6 +549,37 @@ public class FrmServer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnStartServerActionPerformed
 
+    private void btnTestPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestPortActionPerformed
+        try {
+            int port = Integer.parseInt(txtServerPort.getText().trim());
+            boolean isAvailable = PortUtility.isPortAvailable(port);
+            if (isAvailable) {
+                lblPortAvailable.setText("Port is available...");
+                lblPortAvailable.setForeground(Color.green);
+            } else {
+                lblPortAvailable.setText("Port is NOT available...");
+                lblPortAvailable.setForeground(Color.red);
+            }
+            
+            // start cleanup thread
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(3000);
+                        lblPortAvailable.setText("");
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FrmServer.class.getName()).log(Level.SEVERE, null, ex);
+                        lblPortAvailable.setText("");
+                    }
+                }
+            }).start();
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnTestPortActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -567,6 +612,7 @@ public class FrmServer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblNumberOfClients;
+    private javax.swing.JLabel lblPortAvailable;
     private javax.swing.JLabel lblTableRefreshed;
     private javax.swing.JLabel lblTrenutnoVreme;
     private javax.swing.JTabbedPane tabServer;
