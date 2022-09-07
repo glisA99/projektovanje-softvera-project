@@ -3,6 +3,8 @@ package forms;
 import configuration.DbAccessParams;
 import configuration.DbConfigurationParser;
 import static configuration.ConfigurationConstants.*;
+import configuration.ServerConfigurationParser;
+import configuration.ServerInitParams;
 import connection.TestConnection;
 import forms.models.ConnectedClientsModel;
 import java.awt.Color;
@@ -15,12 +17,17 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import threads.ClockThread;
+import threads.RefreshThread;
+import threads.ServerThread;
+import threads.ServerThreadImpl;
 
 /**
  *
  * @author ognje
  */
 public class FrmServer extends javax.swing.JFrame {
+    
+    private ServerThread serverThread;
 
     /**
      * Creates new form FrmServer
@@ -52,6 +59,7 @@ public class FrmServer extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblConnectedClients = new javax.swing.JTable();
         btnDisconnectClient = new javax.swing.JButton();
+        lblTableRefreshed = new javax.swing.JLabel();
         btnStartServer = new javax.swing.JButton();
         btnStopServer = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
@@ -83,7 +91,7 @@ public class FrmServer extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         txtServerPort = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        btnCheckPortAvail = new javax.swing.JButton();
+        btnTestPort = new javax.swing.JButton();
         btnSaveChangesServer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -113,8 +121,9 @@ public class FrmServer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(lblTableRefreshed, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDisconnectClient, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -124,12 +133,19 @@ public class FrmServer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDisconnectClient)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDisconnectClient)
+                    .addComponent(lblTableRefreshed))
                 .addGap(0, 3, Short.MAX_VALUE))
         );
 
         btnStartServer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnStartServer.setText("Start server");
+        btnStartServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartServerActionPerformed(evt);
+            }
+        });
 
         btnStopServer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnStopServer.setText("Stop server");
@@ -343,7 +359,7 @@ public class FrmServer extends javax.swing.JFrame {
 
         jLabel5.setText("PORT:");
 
-        btnCheckPortAvail.setText("Test port availability");
+        btnTestPort.setText("Test port availability");
 
         btnSaveChangesServer.setText("Save changes");
 
@@ -360,7 +376,7 @@ public class FrmServer extends javax.swing.JFrame {
                         .addComponent(txtServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(btnSaveChangesServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCheckPortAvail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))
+                        .addComponent(btnTestPort, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -371,7 +387,7 @@ public class FrmServer extends javax.swing.JFrame {
                     .addComponent(txtServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(btnCheckPortAvail)
+                .addComponent(btnTestPort)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSaveChangesServer)
                 .addGap(17, 17, 17))
@@ -486,16 +502,39 @@ public class FrmServer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveChangesDbActionPerformed
 
+    private void btnStartServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartServerActionPerformed
+        try {
+            // start server thread
+            ServerInitParams pps = getConfigurationPort();
+            ServerThread serverThread = new ServerThreadImpl(pps.getPort());
+            this.serverThread = serverThread;
+            this.serverThread.start();
+            
+            // start refresh thread
+            RefreshThread refreshThread = new RefreshThread(tblConnectedClients, serverThread,lblTableRefreshed);
+            refreshThread.start();
+            
+            // disable other UI elements
+            btnStopServer.setEnabled(true);
+            btnStartServer.setEnabled(false);
+            disableConfiguration();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(FrmServer.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnStartServerActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCheckPortAvail;
     private javax.swing.JButton btnDisconnectClient;
     private javax.swing.JButton btnSaveChangesDb;
     private javax.swing.JButton btnSaveChangesServer;
     private javax.swing.JButton btnStartServer;
     private javax.swing.JButton btnStopServer;
     private javax.swing.JButton btnTestConnection;
+    private javax.swing.JButton btnTestPort;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -516,6 +555,7 @@ public class FrmServer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblTableRefreshed;
     private javax.swing.JLabel lblTrenutnoVreme;
     private javax.swing.JTabbedPane tabServer;
     private javax.swing.JTable tblConnectedClients;
@@ -584,5 +624,24 @@ public class FrmServer extends javax.swing.JFrame {
         });
 
         btnDisconnectClient.setEnabled(false);
+    }
+
+    private ServerInitParams getConfigurationPort() throws Exception {
+        ServerConfigurationParser parser = ServerConfigurationParser.getInstance();
+        ServerInitParams params = parser.parseConfiguration();
+        return params;
+    }
+
+    private void disableConfiguration() {
+        txtRDBMSType.setEditable(false);
+        txtHost.setEditable(false);
+        txtPort.setEditable(false);
+        txtDBName.setEditable(false);
+        txtUsername.setEditable(false);
+        txtPassword.setEditable(false);
+        btnTestConnection.setEnabled(false);
+        btnSaveChangesDb.setEnabled(false);
+        btnSaveChangesServer.setEnabled(false);
+        btnTestPort.setEnabled(false);
     }
 }

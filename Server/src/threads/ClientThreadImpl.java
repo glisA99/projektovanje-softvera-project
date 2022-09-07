@@ -27,12 +27,15 @@ public class ClientThreadImpl extends ClientThread {
         while(!this.socket.isClosed()) {
             try {
                 Request request = (Request) new Receiver(socket).receive();
+                System.out.println("Receiver request from client... Operation type: " + request.getOperation());
                 Response response = handleRequest(request);
                 new Sender(socket).send(response);
                 this.clientStatistic.addRequest(ResponseType.SUCCESS);
+                System.out.println("Client request handled sucessfully...");
             } catch (Exception ex) {
                 Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex);
                 this.clientStatistic.addRequest(ResponseType.FAILURE);
+                System.out.println("Client request failed...");
             }
         }
     }
