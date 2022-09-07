@@ -4,6 +4,10 @@
  */
 package forms;
 
+import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
 /**
  *
  * @author ognje
@@ -139,4 +143,31 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField pswdPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getBtnLogin() {
+        return btnLogin;
+    }
+
+    public void setBtnLogin(JButton btnLogin) {
+        this.btnLogin = btnLogin;
+    }
+
+    public JPasswordField getPswdPassword() {
+        return pswdPassword;
+    }
+
+    public void setPswdPassword(JPasswordField pswdPassword) {
+        this.pswdPassword = pswdPassword;
+    }
+
+    public JTextField getTxtUsername() {
+        return txtUsername;
+    }
+
+    public void setTxtUsername(JTextField txtUsername) {
+        this.txtUsername = txtUsername;
+    }
+
+    
+
 }

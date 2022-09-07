@@ -15,7 +15,7 @@ public class PronadjiKlijente extends AbstractSystemOperation<Klijent> {
     }
     
     @Override
-    protected void precondition() throws Exception {
+    protected void precondition(Klijent param) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

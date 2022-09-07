@@ -16,7 +16,7 @@ public class UcitajKlijente extends AbstractSystemOperation<Klijent> {
     }
 
     @Override
-    protected void precondition() throws Exception {
+    protected void precondition(Klijent param) throws Exception {
         return;
     }
 

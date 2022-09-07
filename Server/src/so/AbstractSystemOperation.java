@@ -4,7 +4,6 @@ import connection.ConnectionFactory;
 import db.DatabaseRepository;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  *
@@ -25,7 +24,7 @@ public abstract class AbstractSystemOperation<T> {
     // Template method for executing system operation
     public final void execute(T entity) throws Exception {
         try {
-            precondition();
+            precondition(entity);
             startTransaction();
             executeOperation(entity);
             commitTransaction();
@@ -35,7 +34,7 @@ public abstract class AbstractSystemOperation<T> {
     }
 
     
-    protected abstract void precondition()throws Exception;
+    protected abstract void precondition(T entity)throws Exception;
     protected abstract void executeOperation(T entity) throws Exception;
     
 
