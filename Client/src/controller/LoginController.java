@@ -8,6 +8,7 @@ import communication.ResponseType;
 import communication.Sender;
 import domain.Radnik;
 import forms.FrmLogin;
+import forms.FrmMain;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -52,6 +53,8 @@ public class LoginController {
                     validate(username,password);
                     Radnik radnik = login(username, password);
                     JOptionPane.showMessageDialog(loginForm, "Welcome, " + radnik.getIme() + "!");
+                    loginForm.dispose();
+                    new FrmMain().setVisible(true);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     txtUsername.setText("");

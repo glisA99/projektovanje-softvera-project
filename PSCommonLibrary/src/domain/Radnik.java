@@ -37,7 +37,7 @@ public class Radnik implements IEntity, Serializable {
 
     @Override
     public String getTableName() {
-        return "radnik";
+        return "zaposleni";
     }
 
     @Override

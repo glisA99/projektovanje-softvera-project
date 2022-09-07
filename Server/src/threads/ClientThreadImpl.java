@@ -10,6 +10,7 @@ import domain.Radnik;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import login.so.LoginSO;
 
 /**
  *
@@ -49,6 +50,18 @@ public class ClientThreadImpl extends ClientThread {
     private Response handleLogin(Request request) {
         Response response = new Response();
         Radnik radnik = (Radnik) request.getData();
+        
+        try {
+            LoginSO so = new LoginSO();
+            so.execute(radnik);
+            Radnik radnik1 = (Radnik) so.operationResult;
+            response.setResponseType(ResponseType.SUCCESS);
+            response.setResponse(radnik1);
+        } catch (Exception ex) {
+            Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex);
+            response.setResponseType(ResponseType.FAILURE);
+            response.setException(ex);
+        }
         
         return response;
     }
