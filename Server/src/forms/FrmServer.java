@@ -8,6 +8,7 @@ import configuration.ServerInitParams;
 import utility.TestConnection;
 import forms.models.ConnectedClientsModel;
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,8 +28,9 @@ import utility.PortUtility;
  * @author ognje
  */
 public class FrmServer extends javax.swing.JFrame {
-    
+
     private ServerThread serverThread;
+    private RefreshThread refreshThread;
     private int serverPort;
 
     /**
@@ -43,7 +45,6 @@ public class FrmServer extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -159,6 +160,11 @@ public class FrmServer extends javax.swing.JFrame {
 
         btnStopServer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnStopServer.setText("Stop server");
+        btnStopServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopServerActionPerformed(evt);
+            }
+        });
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Server status:"));
 
@@ -377,6 +383,11 @@ public class FrmServer extends javax.swing.JFrame {
         });
 
         btnSaveChangesServer.setText("Save changes");
+        btnSaveChangesServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveChangesServerActionPerformed(evt);
+            }
+        });
 
         lblPortAvailable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -532,17 +543,18 @@ public class FrmServer extends javax.swing.JFrame {
             ServerThread serverThread = new ServerThreadImpl(pps.getPort());
             this.serverThread = serverThread;
             this.serverThread.start();
-            
+
             // start refresh thread
-            RefreshThread refreshThread = new RefreshThread(tblConnectedClients, serverThread,lblTableRefreshed);
+            RefreshThread refreshThread = new RefreshThread(tblConnectedClients, serverThread, lblTableRefreshed);
+            this.refreshThread = refreshThread;
             refreshThread.start();
-            
+
             // disable other UI elements
             btnStopServer.setEnabled(true);
             btnStartServer.setEnabled(false);
             disableConfiguration();
             populateStartData();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(FrmServer.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -560,7 +572,7 @@ public class FrmServer extends javax.swing.JFrame {
                 lblPortAvailable.setText("Port is NOT available...");
                 lblPortAvailable.setForeground(Color.red);
             }
-            
+
             // start cleanup thread
             new Thread(new Runnable() {
                 @Override
@@ -574,13 +586,46 @@ public class FrmServer extends javax.swing.JFrame {
                     }
                 }
             }).start();
-            
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnTestPortActionPerformed
 
-    
+    private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
+        try {
+            // stop server thread
+            this.serverThread.stopServer();
+            // enable configuration
+            enableConfiguration();
+            // restart table
+            ConnectedClientsModel tblModel = new ConnectedClientsModel(new ArrayList<>());
+            tblConnectedClients.setModel(tblModel);
+            // disable
+            populateStopData();
+            btnStartServer.setEnabled(true);
+            btnStopServer.setEnabled(false);
+            btnDisconnectClient.setEnabled(false);
+            // stop refresh thread
+            refreshThread.interrupt();
+        } catch (IOException ex) {
+            Logger.getLogger(FrmServer.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnStopServerActionPerformed
+
+    private void btnSaveChangesServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesServerActionPerformed
+        try {
+            ServerConfigurationParser parser = ServerConfigurationParser.getInstance();
+            ServerInitParams params = new ServerInitParams();
+            params.setPort(Integer.parseInt(txtServerPort.getText().trim()));
+            parser.writeConfiguration(params);
+            JOptionPane.showMessageDialog(this, "Configuration saved sucessfully!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSaveChangesServerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDisconnectClient;
@@ -631,10 +676,10 @@ public class FrmServer extends javax.swing.JFrame {
 
     private void prepareView() throws Exception {
         prepareConfigurationView();
+        prepareMainView();
     }
 
     private void prepareConfigurationView() throws Exception {
-        prepareMainView();
         prepareDBconfigurationView();
         prepareServerConfigView();
     }
@@ -652,8 +697,10 @@ public class FrmServer extends javax.swing.JFrame {
         txtRDBMSType.setEditable(false);
     }
 
-    private void prepareServerConfigView() {
-
+    private void prepareServerConfigView() throws Exception {
+        ServerConfigurationParser parser = ServerConfigurationParser.getInstance();
+        ServerInitParams params = parser.parseConfiguration();
+        txtServerPort.setText(String.valueOf(params.getPort()));
     }
 
     private void prepareMainView() {
@@ -667,7 +714,7 @@ public class FrmServer extends javax.swing.JFrame {
 
         ClockThread clockThread = new ClockThread(lblTrenutnoVreme);
         clockThread.start();
-        
+
         ConnectedClientsModel tblModel = new ConnectedClientsModel(new ArrayList<>());
         tblConnectedClients.setModel(tblModel);
         tblConnectedClients.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -701,8 +748,9 @@ public class FrmServer extends javax.swing.JFrame {
         btnSaveChangesDb.setEnabled(false);
         btnSaveChangesServer.setEnabled(false);
         btnTestPort.setEnabled(false);
+        txtServerPort.setEditable(false);
     }
-    
+
     private void enableConfiguration() {
         txtRDBMSType.setEditable(true);
         txtHost.setEditable(true);
@@ -714,6 +762,7 @@ public class FrmServer extends javax.swing.JFrame {
         btnSaveChangesDb.setEnabled(true);
         btnSaveChangesServer.setEnabled(true);
         btnTestPort.setEnabled(true);
+        txtServerPort.setEditable(true);
     }
 
     private void populateStartData() {
@@ -721,5 +770,14 @@ public class FrmServer extends javax.swing.JFrame {
         txtStatus.setForeground(Color.green);
         txtServerPortStatus.setText("Server is listening on port " + this.serverPort + "...");
         txtServerPortStatus.setForeground(Color.green);
+    }
+
+    private void populateStopData() {
+        txtStatus.setEditable(false);
+        txtStatus.setText("Server is down.");
+        txtStatus.setForeground(Color.red);
+        txtServerPortStatus.setEditable(false);
+        txtServerPortStatus.setForeground(Color.red);
+        txtServerPortStatus.setText("N/A");
     }
 }

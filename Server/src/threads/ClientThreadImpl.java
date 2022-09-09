@@ -37,8 +37,14 @@ public class ClientThreadImpl extends ClientThread {
                 System.out.println("Receiver request from client... Operation type: " + request.getOperation());
                 Response response = handleRequest(request);
                 new Sender(socket).send(response);
-                this.clientStatistic.addRequest(ResponseType.SUCCESS);
-                System.out.println("Client request handled sucessfully...");
+                // add statistic
+                if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+                    this.clientStatistic.addRequest(ResponseType.SUCCESS);
+                    System.out.println("Client request handled sucessfully...");
+                } else {
+                    System.out.println("Client request failed...");
+                    this.clientStatistic.addRequest(ResponseType.FAILURE);
+                }
             } catch (Exception ex) {
                 try {
                     this.socket.close();
@@ -72,9 +78,11 @@ public class ClientThreadImpl extends ClientThread {
             LoginSO so = new LoginSO();
             so.execute(radnik);
             Radnik radnik1 = (Radnik) so.operationResult;
+            if (radnik1 == null) throw new Exception("Radnik not found");
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(radnik1);
         } catch (Exception ex) {
+            System.out.println("Radnik NOT found...");
             Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex);
             response.setResponseType(ResponseType.FAILURE);
             response.setException(ex);

@@ -20,7 +20,7 @@ public class Receiver {
     
     public Object receive() throws Exception {
         try {
-            ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             return in.readObject();
         } catch (Exception ex) {
             Logger.getLogger(Receiver.class.getName()).log(Level.SEVERE, null, ex);

@@ -34,6 +34,7 @@ public class DatabaseRepository {
                 .append(")");
         String query = builder.toString();
         
+        System.out.println("[DBRepository] executing query: " + query);
         Statement statement = connection.createStatement();
         if (entity.isIdAutoincrement()) {
             statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
@@ -49,6 +50,7 @@ public class DatabaseRepository {
     // Find entity by its identificator
     public IEntity findByID(IEntity entity) throws Exception {
         String query = "SELECT * FROM " + entity.getTableName() + " WHERE " + entity.getWhereCondition();
+        System.out.println("[DBRepository] executing query: " + query);
         Statement statement = connection.createStatement();
         
         ResultSet rs = statement.executeQuery(query);
@@ -62,6 +64,7 @@ public class DatabaseRepository {
         String query = "SELECT * FROM " + entity.getTableName();
         Statement statement = connection.createStatement();
         
+        System.out.println("[DBRepository] executing query: " + query);
         ResultSet rs = statement.executeQuery(query);
         
         List<IEntity> entities = new ArrayList<>();
@@ -78,6 +81,7 @@ public class DatabaseRepository {
         String query = "SELECT * FROM " + entity.getTableName() + " WHERE " + whereCondition;
         Statement statement = connection.createStatement();
         
+        System.out.println("[DBRepository] executing query: " + query);
         ResultSet rs = statement.executeQuery(query);
         
         List<IEntity> entities = new ArrayList<>();
@@ -100,6 +104,7 @@ public class DatabaseRepository {
                 .append(entity.getWhereCondition());
         String query = builder.toString();
         
+        System.out.println("[DBRepository] executing query: " + query);
         Statement statement = connection.createStatement();
         int res = statement.executeUpdate(query);
         return res > 0;
@@ -108,7 +113,10 @@ public class DatabaseRepository {
     // Delete entity
     public boolean delete(IEntity entity) throws Exception {
         String query = "DELETE FROM " + entity.getTableName() + " WHERE " + entity.getWhereCondition();
+        
+        System.out.println("[DBRepository] executing query: " + query);
         Statement statement = connection.createStatement();
+        
         int res = statement.executeUpdate(query);
         return res > 0;
     }

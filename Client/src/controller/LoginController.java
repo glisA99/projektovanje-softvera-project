@@ -79,8 +79,11 @@ public class LoginController {
         radnik.setUsername(username);
         radnik.setPassword(password);
         
+        // set radnik as data of req
+        request.setData(radnik);
+        
         // create sender object and send request object
-        session.Session session = Session.getInstance();
+        Session session = Session.getInstance();
         Sender sender = new Sender(session.getSocket());
         sender.send(request);
         
@@ -89,7 +92,7 @@ public class LoginController {
         Response response = (Response) receiver.receive();
         
         if (response.getResponseType().equals(ResponseType.FAILURE)) {
-            throw new Exception(response.getException().getMessage());
+            throw new Exception("Invalid username/password");
         }
         // else
         Radnik r = (Radnik) response.getResponse();

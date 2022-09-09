@@ -23,10 +23,15 @@ public class LoginSO extends AbstractSystemOperation<Radnik> {
 
     @Override
     protected void executeOperation(Radnik entity) throws Exception {
-        String whereCondition = "Username = " + entity.getUsername() + " AND " + "Password = " + entity.getPassword();
+        String whereCondition = "Username = '" + entity.getUsername() + "' AND " + "Password = '" + entity.getPassword() + "'";
         List<IEntity> radnici = this.repository.findAllCustom(entity, whereCondition);
-        if (radnici.size() == 0) throw new Exception("There is no employee with specified username and password.");
-        operationResult = (Radnik) radnici.get(0);;
+        System.out.println("SIZE: " + radnici.size());
+        if (radnici.size() == 0) {
+            System.out.println("NIJE PRONADJEN RADNIK");
+            throw new Exception("There is no employee with specified username and password.");
+        }
+        System.out.println("RADNIK PRONADJEN: " + ((Radnik) radnici.get(0)).getIme());
+        operationResult = (Radnik) radnici.get(0);
     }
 
 }
