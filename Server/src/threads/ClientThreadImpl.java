@@ -7,11 +7,17 @@ import communication.Response;
 import static communication.Operations.*;
 import communication.ResponseType;
 import communication.Sender;
+import domain.Klijent;
 import domain.Radnik;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import klijent.so.KreirajKlijenta;
+import klijent.so.PronadjiKlijente;
+import klijent.so.UcitajKlijente;
+import klijent.so.ZapamtiKlijenta;
 import login.so.LoginSO;
 
 /**
@@ -58,8 +64,11 @@ public class ClientThreadImpl extends ClientThread {
         int operation = request.getOperation();
 
         switch (operation) {
-            case LOGIN:
-                return handleLogin(request);
+            case LOGIN: return handleLogin(request);
+            case GET_ALL_CLIENTS: return handleFetchAllClients();
+            case GET_CLIENTS_CONDITIONAL: return handleFetchAllClientsConditional(request);
+            case CREATE_CLIENT: return handleCreateClient();
+            case SAVE_CLIENT: return handleSaveClient(request);
         }
 
         return null;
@@ -101,6 +110,80 @@ public class ClientThreadImpl extends ClientThread {
             System.out.println("Client request failed...");
             this.clientStatistic.addRequest(ResponseType.FAILURE);
         }
+    }
+
+    private Response handleFetchAllClients() {
+        Response response = new Response();
+        
+        try {
+            UcitajKlijente ucitajKlijenteSO = new UcitajKlijente();
+            ucitajKlijenteSO.execute(new Klijent());
+            List<Klijent> clients = (List<Klijent>) ucitajKlijenteSO.operationResult;
+            response.setResponseType(ResponseType.SUCCESS);
+            response.setResponse(clients);
+        } catch (Exception ex) {
+            Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex);
+            response.setResponseType(ResponseType.FAILURE);
+            response.setException(ex);
+        }
+        
+        return response;
+    }
+
+    private Response handleFetchAllClientsConditional(Request request) {
+        Response response = new Response();
+        Klijent client = (Klijent) request.getData();
+        
+        try {
+            PronadjiKlijente pronadjiKlijenteSO = new PronadjiKlijente();
+            pronadjiKlijenteSO.execute(client);
+            List<Klijent> clients = (List<Klijent>) pronadjiKlijenteSO.operationResult;
+            response.setResponseType(ResponseType.SUCCESS);
+            response.setResponse(clients);
+        } catch (Exception ex) {
+            Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex);
+            response.setResponseType(ResponseType.FAILURE);
+            response.setException(ex);
+        }
+        
+        return response;
+    }
+
+    private Response handleSaveClient(Request request) {
+        Response response = new Response();
+        Klijent client = (Klijent) request.getData();
+        
+        try {
+            ZapamtiKlijenta zapamtiKlijentaSO = new ZapamtiKlijenta();
+            zapamtiKlijentaSO.execute(client);
+            Klijent _client = (Klijent) zapamtiKlijentaSO.operationResult;
+            response.setResponseType(ResponseType.SUCCESS);
+            response.setResponse(_client);
+        } catch (Exception ex) {
+            Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex);
+            response.setResponseType(ResponseType.FAILURE);
+            response.setException(ex);
+        }
+        
+        return response;
+    }
+
+    private Response handleCreateClient() {
+        Response response = new Response();
+        
+        try {
+            KreirajKlijenta kreirajKlijentaSO = new KreirajKlijenta();
+            kreirajKlijentaSO.execute(new Klijent());
+            Klijent klijent = (Klijent) kreirajKlijentaSO.operationResult;
+            response.setResponseType(ResponseType.SUCCESS);
+            response.setResponse(klijent);
+        } catch (Exception ex) {
+            Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex);
+            response.setResponseType(ResponseType.FAILURE);
+            response.setException(ex);
+        }
+        
+        return response;
     }
 
 }

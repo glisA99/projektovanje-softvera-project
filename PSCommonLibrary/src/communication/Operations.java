@@ -12,5 +12,9 @@ package communication;
 public class Operations {
     
     public static final int LOGIN = 1;
+    public static final int GET_ALL_CLIENTS = 2;
+    public static final int GET_CLIENTS_CONDITIONAL = 3;
+    public static final int CREATE_CLIENT = 4;
+    public static final int SAVE_CLIENT = 5;
     
 }
