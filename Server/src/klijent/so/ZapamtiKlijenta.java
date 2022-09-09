@@ -1,7 +1,6 @@
 package klijent.so;
 
 import domain.Klijent;
-import java.util.List;
 import so.AbstractSystemOperation;
 
 /**
@@ -15,13 +14,29 @@ public class ZapamtiKlijenta extends AbstractSystemOperation<Klijent> {
     }
     
     @Override
-    protected void precondition(Klijent param) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected void precondition(Klijent entity) throws Exception {
+        if (entity.getKlijentID() == null) throw new Exception("KlijentID can NOT be null!");
+        if (entity.getIme() == null) throw new Exception("Ime can NOT be null!");
+        if (entity.getIme().length() <= 1) throw new Exception("Ime must be at least 2 characters long!");
+        if (entity.getPrezime()== null) throw new Exception("Prezime can NOT be null!");
+        if (entity.getPrezime().length() <= 1) throw new Exception("Prezime must be at least 2 characters long!");
+        if (entity.getEmail() == null) throw new Exception("Email can NOT be null!");
     }
 
     @Override
     protected void executeOperation(Klijent entity) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Klijent client = (Klijent) this.repository.findByID(entity);
+        
+        if (client != null) {
+            // if klijent already exists - UPDATE
+            boolean result = this.repository.update(entity);
+            if (!result) throw new Exception("Klijent is NOT updated!");
+            return;
+        }
+        
+        // else CREATE new
+        Klijent _client = (Klijent) this.repository.save(entity);
+        this.operationResult = client;
     }
 
 }

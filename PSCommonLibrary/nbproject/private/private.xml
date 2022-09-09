@@ -2,20 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/domain/ProdajnaStavka.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/domain/IEntity.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/domain/Artikl.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/communication/Sender.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/domain/Radnik.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/domain/Klijent.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/communication/Operations.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/communication/Response.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/communication/Receiver.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/communication/Request.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/communication/ResponseType.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/domain/Izvestaj.java</file>
-            <file>file:/C:/Users/ognje/Desktop/Projektovanje%20softvera%20-%20seminarski%20rad/Projektovanje%20softvera%20-%20projekat/PSCommonLibrary/src/domain/StavkaIzvestaja.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

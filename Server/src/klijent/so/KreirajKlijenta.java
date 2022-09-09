@@ -1,7 +1,6 @@
 package klijent.so;
 
 import domain.Klijent;
-import java.util.List;
 import so.AbstractSystemOperation;
 
 /**
@@ -15,12 +14,13 @@ public class KreirajKlijenta extends AbstractSystemOperation<Klijent>   {
     }
     
     @Override
-    protected void precondition(Klijent param) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected void precondition(Klijent entity) throws Exception {
+        return;
     }
 
     @Override
-    protected void executeOperation(Klijent param) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected void executeOperation(Klijent entity) throws Exception {
+        Klijent k = new Klijent();
+        this.operationResult = k;
     }
 }
