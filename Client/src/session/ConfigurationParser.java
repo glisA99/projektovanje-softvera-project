@@ -2,7 +2,9 @@ package session;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -32,6 +34,17 @@ public class ConfigurationParser {
         serverProperties.setPort((String) properties.get("PORT"));
         
         return serverProperties;
+    }
+    
+    public void writeConfiguration(ServerProperties serverProperties) throws FileNotFoundException, IOException {
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(CONFIGURATION_PATH));
+        
+        properties.setProperty(constants.Constants.HOST, serverProperties.getHost());
+        properties.setProperty(constants.Constants.PORT, serverProperties.getPort());
+        
+        FileOutputStream fileOutputStream = new FileOutputStream(CONFIGURATION_PATH);
+        properties.store(fileOutputStream, "Date updated: " + new Date().toString());
     }
 
 }

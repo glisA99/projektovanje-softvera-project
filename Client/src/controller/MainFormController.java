@@ -1,16 +1,22 @@
 package controller;
 
+import controller.clients.SearchClientsController;
+import controller.general.AbstractController;
 import forms.FrmMain;
+import forms.panels.client.SearchClientsPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
  * @author Ognjen Simic 2018/0093
  */
-public class MFController {
+public class MainFormController {
 
     private FrmMain mainForm;
+    private AbstractController controller;
 
-    public MFController() {
+    public MainFormController() {
         this.mainForm = new FrmMain();
     }
     
@@ -20,12 +26,22 @@ public class MFController {
 
     private void initializeActionListeners() {
         initClientActionListeners();
-        initProdajnaStavkaActionListeners();
-        initArtiklActionListeners();
-        initIzvestajActionListeners();
+//        initProdajnaStavkaActionListeners();
+//        initArtiklActionListeners();
+//        initIzvestajActionListeners();
     }
 
     private void initClientActionListeners() {
+        // Search clients panel + ctrl
+        this.mainForm.getJmiPretragaKlijenata().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                controller = new SearchClientsController(mainForm);
+                mainForm.setTitle("Search clients");
+                controller.initPanel(new SearchClientsPanel());
+            }
+        });
+        // Create client panel + ctrl
         
     }
 

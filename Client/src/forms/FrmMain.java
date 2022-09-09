@@ -22,6 +22,7 @@ public class FrmMain extends javax.swing.JFrame {
      */
     public FrmMain() {
         initComponents();
+        this.setTitle("BUTIK Application");
     }
 
     /**
