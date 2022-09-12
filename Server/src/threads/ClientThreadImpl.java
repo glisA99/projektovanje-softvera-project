@@ -7,6 +7,7 @@ import communication.Response;
 import static communication.Operations.*;
 import communication.ResponseType;
 import communication.Sender;
+import controller.ClientController;
 import domain.Klijent;
 import domain.Radnik;
 import java.io.IOException;
@@ -79,12 +80,7 @@ public class ClientThreadImpl extends ClientThread {
         Radnik radnik = (Radnik) request.getData();
 
         try {
-            LoginSO so = new LoginSO();
-            so.execute(radnik);
-            Radnik radnik1 = (Radnik) so.operationResult;
-            if (radnik1 == null) {
-                throw new Exception("Radnik not found");
-            }
+            Radnik radnik1 = ClientController.getInstance().login(radnik);
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(radnik1);
         } catch (Exception ex) {
@@ -116,9 +112,7 @@ public class ClientThreadImpl extends ClientThread {
         Response response = new Response();
         
         try {
-            UcitajKlijente ucitajKlijenteSO = new UcitajKlijente();
-            ucitajKlijenteSO.execute(new Klijent());
-            List<Klijent> clients = (List<Klijent>) ucitajKlijenteSO.operationResult;
+            List<Klijent> clients = ClientController.getInstance().findAllClients();
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(clients);
         } catch (Exception ex) {
@@ -135,9 +129,7 @@ public class ClientThreadImpl extends ClientThread {
         Klijent client = (Klijent) request.getData();
         
         try {
-            PronadjiKlijente pronadjiKlijenteSO = new PronadjiKlijente();
-            pronadjiKlijenteSO.execute(client);
-            List<Klijent> clients = (List<Klijent>) pronadjiKlijenteSO.operationResult;
+            List<Klijent> clients = ClientController.getInstance().findAllClientsCustom(client);
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(clients);
         } catch (Exception ex) {
@@ -154,9 +146,7 @@ public class ClientThreadImpl extends ClientThread {
         Klijent client = (Klijent) request.getData();
         
         try {
-            ZapamtiKlijenta zapamtiKlijentaSO = new ZapamtiKlijenta();
-            zapamtiKlijentaSO.execute(client);
-            Klijent _client = (Klijent) zapamtiKlijentaSO.operationResult;
+            Klijent _client = ClientController.getInstance().saveClient(client);
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(_client);
         } catch (Exception ex) {
@@ -172,9 +162,7 @@ public class ClientThreadImpl extends ClientThread {
         Response response = new Response();
         
         try {
-            KreirajKlijenta kreirajKlijentaSO = new KreirajKlijenta();
-            kreirajKlijentaSO.execute(new Klijent());
-            Klijent klijent = (Klijent) kreirajKlijentaSO.operationResult;
+            Klijent klijent = ClientController.getInstance().createClient();
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(klijent);
         } catch (Exception ex) {
