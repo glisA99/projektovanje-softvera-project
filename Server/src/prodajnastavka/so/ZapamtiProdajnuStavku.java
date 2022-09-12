@@ -1,6 +1,7 @@
 package prodajnastavka.so;
 
 import domain.ProdajnaStavka;
+import domain.Artikl;
 import java.math.BigDecimal;
 import so.AbstractSystemOperation;
 
@@ -21,6 +22,12 @@ public class ZapamtiProdajnuStavku extends AbstractSystemOperation<ProdajnaStavk
         if (entity.getKolicina() <= 0) throw new Exception("Kolicina mora biti veca od nule!");
         if (entity.getIznos().compareTo(BigDecimal.ZERO) != 1) throw new Exception("Iznos mora biti veca od nule!");
         if (entity.getSifraArtikla() == null) throw new Exception("Sifra artikla ne moze biti null!");
+        Artikl artikl = new Artikl();
+        artikl.setSifraArtikla(entity.getSifraArtikla());
+        Artikl _artikl = (Artikl) this.repository.findByID(artikl);
+        if (_artikl == null) throw new Exception("Artikl sa sifrom: " + entity.getSifraArtikla() + " ne postoji!");
+        // Iznos = ProdajnaCena * Kolicina
+        entity.setIznos(_artikl.getProdajnaCena().multiply(new BigDecimal(entity.getKolicina())));
     }
 
     @Override
