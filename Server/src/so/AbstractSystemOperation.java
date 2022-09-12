@@ -31,6 +31,7 @@ public abstract class AbstractSystemOperation<T> {
         } catch (Exception ex) {
             ex.printStackTrace();
             rollbackTransaction();
+            throw ex;
         }
     }
 
