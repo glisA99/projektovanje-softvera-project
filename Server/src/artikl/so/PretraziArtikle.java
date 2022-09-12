@@ -43,23 +43,28 @@ public class PretraziArtikle extends AbstractSystemOperation<Artikl> {
     private String generateWhereCondition(Artikl entity) {
         StringBuilder builder = new StringBuilder("");
         String likeCondition = "";
+        boolean conditionAdded = false;
         
         // condition for sifra artikla
         if (entity.getSifraArtikla() != null) {
-            likeCondition = constructLikeCondition(entity.getSifraArtikla().toString());
-            builder.append("CAST(SifraArtikla as CHAR) LIKE ").append(likeCondition);
+            builder.append("SifraArtikla = " + entity.getSifraArtikla());
+            return builder.toString();
         }
         
         // condition for naziv
         if (entity.getNaziv() != null) {
+            if (conditionAdded) builder.append(" AND ");
             likeCondition = constructLikeCondition(entity.getNaziv());
-            builder.append(" AND ").append("Naziv LIKE ").append(likeCondition);
+            builder.append("Naziv LIKE ").append(likeCondition);
+            conditionAdded = true;
         }
         
         // condition for proizvodjac
         if (entity.getProizvodjac() != null) {
+            if (conditionAdded) builder.append(" AND ");
             likeCondition = constructLikeCondition(entity.getProizvodjac());
-            builder.append(" AND ").append("Proizvodjac LIKE ").append(likeCondition);
+            builder.append("Proizvodjac LIKE ").append(likeCondition);
+            conditionAdded = true;
         }
         
         return builder.toString();

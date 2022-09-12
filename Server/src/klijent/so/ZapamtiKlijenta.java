@@ -15,7 +15,6 @@ public class ZapamtiKlijenta extends AbstractSystemOperation<Klijent> {
     
     @Override
     protected void precondition(Klijent entity) throws Exception {
-        if (entity.getKlijentID() == null) throw new Exception("KlijentID can NOT be null!");
         if (entity.getIme() == null) throw new Exception("Ime can NOT be null!");
         if (entity.getIme().length() <= 1) throw new Exception("Ime must be at least 2 characters long!");
         if (entity.getPrezime()== null) throw new Exception("Prezime can NOT be null!");
@@ -25,7 +24,10 @@ public class ZapamtiKlijenta extends AbstractSystemOperation<Klijent> {
 
     @Override
     protected void executeOperation(Klijent entity) throws Exception {
-        Klijent client = (Klijent) this.repository.findByID(entity);
+        Klijent client = null;
+        if (entity.getKlijentID() != null) {
+            client = (Klijent) this.repository.findByID(entity);
+        }
         
         if (client != null) {
             // if klijent already exists - UPDATE

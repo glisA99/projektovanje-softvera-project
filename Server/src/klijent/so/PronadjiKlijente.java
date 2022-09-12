@@ -46,29 +46,36 @@ public class PronadjiKlijente extends AbstractSystemOperation<Klijent> {
     private String generateWhereCondition(Klijent entity) {
         StringBuilder builder = new StringBuilder("");
         String likeCondition = "";
+        boolean conditionAdded = false;
 
         // condition for KlijentID
         if (entity.getKlijentID() != null) {
-            likeCondition = constructLikeCondition(entity.getKlijentID().toString());
-            builder.append("CAST(KlijentID AS CHAR) LIKE ").append(likeCondition);
+            builder.append("KlijentID = " + entity.getKlijentID());
+            return builder.toString();
         }
 
         // condition for Ime
         if (entity.getIme() != null) {
+            if (conditionAdded) builder.append(" AND ");
             likeCondition = constructLikeCondition(entity.getIme());
-            builder.append(" AND ").append("Ime LIKE ").append(likeCondition);
+            builder.append("Ime LIKE ").append(likeCondition);
+            conditionAdded = true;
         }
 
         // condition for Prezime
         if (entity.getPrezime() != null) {
+            if (conditionAdded) builder.append(" AND ");
             likeCondition = constructLikeCondition(entity.getPrezime());
-            builder.append(" AND ").append("Prezime LIKE ").append(likeCondition);
+            builder.append("Prezime LIKE ").append(likeCondition);
+            conditionAdded = true;
         }
 
         // condition for Email
         if (entity.getEmail() != null) {
+            if (conditionAdded) builder.append(" AND ");
             likeCondition = constructLikeCondition(entity.getEmail());
-            builder.append(" AND ").append("Email LIKE ").append(likeCondition);
+            builder.append("Email LIKE ").append(likeCondition);
+            conditionAdded = true;
         }
 
         return builder.toString();

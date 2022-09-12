@@ -55,8 +55,9 @@ public class ProdajnaStavka implements IEntity, Serializable {
 
     @Override
     public String getColumnValuesForUpdate() {
-         return "ProdajnaStavkaID = " + this.prodajnaStavkaID + ", DatumProdaje = " + this.datumProdaje + ", Kolicina = "
-                + this.kolicina + ", Iznos = " + this.iznos + ", KlijentID = " + this.klijentID + ", SifraArtikla = "
+        String clientID = this.klijentID != null ? this.klijentID.toString() : "NULL";
+        return "ProdajnaStavkaID = " + this.prodajnaStavkaID + ", DatumProdaje = " + this.datumProdaje + ", Kolicina = "
+                + this.kolicina + ", Iznos = " + this.iznos + ", KlijentID = " + clientID + ", SifraArtikla = "
                 + this.sifraArtikla + ", RadnikJMBG = '" + this.radnikJMBG + "'";
     }
 
