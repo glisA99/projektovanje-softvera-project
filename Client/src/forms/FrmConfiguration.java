@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import session.ConfigurationParser;
 import session.ServerProperties;
 import session.Session;
+import session.TestConnection;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -163,16 +164,15 @@ public class FrmConfiguration extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTestConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestConnectActionPerformed
-        ConfigurationParser parser = ConfigurationParser.getInstance();
         String host = txtHost.getText().trim();
         String port = txtPort.getText().trim();
         ServerProperties properties = new ServerProperties(host, port);
         try {
-            parser.writeConfiguration(properties);
-            Session.getInstance();
+            boolean res = TestConnection.testConnection(properties);
+            if (!res) throw new Exception();
             lblTest.setText("Connection established successfullly...");
             lblTest.setForeground(Color.green);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(FrmConfiguration.class.getName()).log(Level.SEVERE, null, ex);
             lblTest.setText("Connection could NOT be estalished...");
             lblTest.setForeground(Color.red);

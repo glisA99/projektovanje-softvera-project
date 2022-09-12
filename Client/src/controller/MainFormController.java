@@ -3,6 +3,7 @@ package controller;
 import controller.clients.SearchClientsController;
 import controller.general.AbstractController;
 import forms.FrmMain;
+import forms.panels.MainPanel;
 import forms.panels.client.SearchClientsPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,9 +19,14 @@ public class MainFormController {
 
     public MainFormController() {
         this.mainForm = new FrmMain();
+        initialize();
+        this.mainForm.setVisible(true);
     }
     
     public void initialize() {
+        this.mainForm.setPnlMain(new MainPanel());
+        this.mainForm.pack();
+        this.mainForm.revalidate();
         initializeActionListeners();
     }
 

@@ -29,6 +29,7 @@ public abstract class AbstractSystemOperation<T> {
             executeOperation(entity);
             commitTransaction();
         } catch (Exception ex) {
+            ex.printStackTrace();
             rollbackTransaction();
         }
     }
