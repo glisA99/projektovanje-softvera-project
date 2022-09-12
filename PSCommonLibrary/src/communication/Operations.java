@@ -20,6 +20,7 @@ public class Operations {
     public static final int SAVE_ARTIKL = 8;
     public static final int FIND_ARTIKL = 9;
     public static final int SEARCH_ARTIKLS = 10;
+    public static final int GET_ARTIKLS = 17;
     
     // operations on prodajna stavka
     public static final int DELETE_PRODAJNA_STAVKA = 11;
