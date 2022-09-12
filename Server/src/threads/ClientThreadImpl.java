@@ -7,6 +7,7 @@ import communication.Response;
 import static communication.Operations.*;
 import communication.ResponseType;
 import communication.Sender;
+import controller.Authentication;
 import controller.ClientController;
 import domain.Klijent;
 import domain.Radnik;
@@ -15,11 +16,6 @@ import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import klijent.so.KreirajKlijenta;
-import klijent.so.PronadjiKlijente;
-import klijent.so.UcitajKlijente;
-import klijent.so.ZapamtiKlijenta;
-import login.so.LoginSO;
 
 /**
  *
@@ -80,7 +76,7 @@ public class ClientThreadImpl extends ClientThread {
         Radnik radnik = (Radnik) request.getData();
 
         try {
-            Radnik radnik1 = ClientController.getInstance().login(radnik);
+            Radnik radnik1 = Authentication.getInstance().login(radnik);
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(radnik1);
         } catch (Exception ex) {
@@ -112,7 +108,7 @@ public class ClientThreadImpl extends ClientThread {
         Response response = new Response();
         
         try {
-            List<Klijent> clients = ClientController.getInstance().findAllClients();
+            List<Klijent> clients = ClientController.getInstance().findAll();
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(clients);
         } catch (Exception ex) {
@@ -129,7 +125,7 @@ public class ClientThreadImpl extends ClientThread {
         Klijent client = (Klijent) request.getData();
         
         try {
-            List<Klijent> clients = ClientController.getInstance().findAllClientsCustom(client);
+            List<Klijent> clients = ClientController.getInstance().findAllCustom(client);
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(clients);
         } catch (Exception ex) {
@@ -146,7 +142,7 @@ public class ClientThreadImpl extends ClientThread {
         Klijent client = (Klijent) request.getData();
         
         try {
-            Klijent _client = ClientController.getInstance().saveClient(client);
+            Klijent _client = ClientController.getInstance().save(client);
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(_client);
         } catch (Exception ex) {
@@ -162,7 +158,7 @@ public class ClientThreadImpl extends ClientThread {
         Response response = new Response();
         
         try {
-            Klijent klijent = ClientController.getInstance().createClient();
+            Klijent klijent = ClientController.getInstance().create();
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(klijent);
         } catch (Exception ex) {
@@ -173,5 +169,7 @@ public class ClientThreadImpl extends ClientThread {
         
         return response;
     }
+    
+    
 
 }
