@@ -1,25 +1,21 @@
-package forms.panels.client;
+package forms.panels.dialogs;
 
-import javax.accessibility.AccessibleContext;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.EventListenerList;
-import javax.swing.plaf.ComponentUI;
 
 /**
  *
- * @author ognje
+ * @author Ognjen Simic 2018/0093
  */
-public class SearchClientsPanel extends javax.swing.JPanel {
+public class SearchClientsDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form SearchClientsPanel
      */
-    public SearchClientsPanel() {
+    public SearchClientsDialog(JFrame parent) {
+        super(parent);
         initComponents();
     }
 
@@ -38,7 +34,7 @@ public class SearchClientsPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         txtClientID = new javax.swing.JTextField();
         txtFirstname = new javax.swing.JTextField();
         txtLastname = new javax.swing.JTextField();
@@ -54,6 +50,8 @@ public class SearchClientsPanel extends javax.swing.JPanel {
 
         jLabel7.setText("(optional)");
 
+        setTitle("Search clients");
+
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Search parameters:"));
 
         jLabel1.setText("Client ID: ");
@@ -64,7 +62,7 @@ public class SearchClientsPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Email:");
 
-        jButton1.setText("Search");
+        btnSearch.setText("Search");
 
         jLabel5.setText("(optional)");
 
@@ -102,9 +100,9 @@ public class SearchClientsPanel extends javax.swing.JPanel {
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -133,7 +131,7 @@ public class SearchClientsPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnSearch)
                 .addGap(12, 12, 12))
         );
 
@@ -152,8 +150,8 @@ public class SearchClientsPanel extends javax.swing.JPanel {
 
         jLabel11.setText("Search results:");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -180,7 +178,7 @@ public class SearchClientsPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -201,116 +199,12 @@ public class SearchClientsPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtLastname;
     // End of variables declaration//GEN-END:variables
 
-    public JButton getjButton1() {
-        return jButton1;
+    public JButton getBtnSearch() {
+        return btnSearch;
     }
 
-    public void setjButton1(JButton jButton1) {
-        this.jButton1 = jButton1;
-    }
-
-    public JLabel getjLabel1() {
-        return jLabel1;
-    }
-
-    public void setjLabel1(JLabel jLabel1) {
-        this.jLabel1 = jLabel1;
-    }
-
-    public JLabel getjLabel10() {
-        return jLabel10;
-    }
-
-    public void setjLabel10(JLabel jLabel10) {
-        this.jLabel10 = jLabel10;
-    }
-
-    public JLabel getjLabel11() {
-        return jLabel11;
-    }
-
-    public void setjLabel11(JLabel jLabel11) {
-        this.jLabel11 = jLabel11;
-    }
-
-    public JLabel getjLabel2() {
-        return jLabel2;
-    }
-
-    public void setjLabel2(JLabel jLabel2) {
-        this.jLabel2 = jLabel2;
-    }
-
-    public JLabel getjLabel3() {
-        return jLabel3;
-    }
-
-    public void setjLabel3(JLabel jLabel3) {
-        this.jLabel3 = jLabel3;
-    }
-
-    public JLabel getjLabel4() {
-        return jLabel4;
-    }
-
-    public void setjLabel4(JLabel jLabel4) {
-        this.jLabel4 = jLabel4;
-    }
-
-    public JLabel getjLabel5() {
-        return jLabel5;
-    }
-
-    public void setjLabel5(JLabel jLabel5) {
-        this.jLabel5 = jLabel5;
-    }
-
-    public JLabel getjLabel6() {
-        return jLabel6;
-    }
-
-    public void setjLabel6(JLabel jLabel6) {
-        this.jLabel6 = jLabel6;
-    }
-
-    public JLabel getjLabel7() {
-        return jLabel7;
-    }
-
-    public void setjLabel7(JLabel jLabel7) {
-        this.jLabel7 = jLabel7;
-    }
-
-    public JLabel getjLabel8() {
-        return jLabel8;
-    }
-
-    public void setjLabel8(JLabel jLabel8) {
-        this.jLabel8 = jLabel8;
-    }
-
-    public JLabel getjLabel9() {
-        return jLabel9;
-    }
-
-    public void setjLabel9(JLabel jLabel9) {
-        this.jLabel9 = jLabel9;
-    }
-
-    public JPanel getjPanel1() {
-        return jPanel1;
-    }
-
-    public void setjPanel1(JPanel jPanel1) {
-        this.jPanel1 = jPanel1;
-    }
-
-    public JScrollPane getjScrollPane1() {
-        return jScrollPane1;
-    }
-
-    public void setjScrollPane1(JScrollPane jScrollPane1) {
-        this.jScrollPane1 = jScrollPane1;
+    public void setSearchButton(JButton jButton1) {
+        this.btnSearch = jButton1;
     }
 
     public JTable getTblClients() {
@@ -351,30 +245,6 @@ public class SearchClientsPanel extends javax.swing.JPanel {
 
     public void setTxtLastname(JTextField txtLastname) {
         this.txtLastname = txtLastname;
-    }
-
-    public ComponentUI getUi() {
-        return ui;
-    }
-
-    public void setUi(ComponentUI ui) {
-        this.ui = ui;
-    }
-
-    public EventListenerList getListenerList() {
-        return listenerList;
-    }
-
-    public void setListenerList(EventListenerList listenerList) {
-        this.listenerList = listenerList;
-    }
-
-    public AccessibleContext getAccessibleContext() {
-        return accessibleContext;
-    }
-
-    public void setAccessibleContext(AccessibleContext accessibleContext) {
-        this.accessibleContext = accessibleContext;
     }
 
     

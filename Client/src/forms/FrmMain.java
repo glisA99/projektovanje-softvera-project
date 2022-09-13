@@ -1,16 +1,14 @@
 package forms;
 
-import javax.accessibility.AccessibleContext;
-import javax.swing.JFrame;
+import java.awt.Dimension;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
 
 /**
  *
- * @author ognje
+ * @author Ognjen Simic 2018/0093
  */
 public class FrmMain extends javax.swing.JFrame {
 
@@ -21,6 +19,7 @@ public class FrmMain extends javax.swing.JFrame {
         initComponents();
 //        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("BUTIK Application");
+        this.pnlMain.setPreferredSize(new Dimension(500,300));
     }
 
     /**
@@ -63,7 +62,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 478, Short.MAX_VALUE)
+            .addGap(0, 490, Short.MAX_VALUE)
         );
 
         jMenuBar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -134,7 +133,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -300,32 +299,5 @@ public class FrmMain extends javax.swing.JFrame {
     public void setJmiPretragaKlijenata(JMenuItem jmiPretragaKlijenata) {
         this.jmiPretragaKlijenata = jmiPretragaKlijenata;
     }
-
-    public JRootPane getRootPane() {
-        return rootPane;
-    }
-
-    public void setRootPane(JRootPane rootPane) {
-        this.rootPane = rootPane;
-    }
-
-    public boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
-    }
-
-    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
-        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
-    }
-
-    public AccessibleContext getAccessibleContext() {
-        return accessibleContext;
-    }
-
-    public void setAccessibleContext(AccessibleContext accessibleContext) {
-        this.accessibleContext = accessibleContext;
-    }
-
-
-    
 
 }

@@ -246,8 +246,10 @@ public class FrmConfiguration extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(FrmConfiguration.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                // create login form
                 FrmLogin frm = new FrmLogin();
                 frm.setVisible(true);
+                // create login controller
                 new LoginController(frm);
                 disposeForm();
                 
