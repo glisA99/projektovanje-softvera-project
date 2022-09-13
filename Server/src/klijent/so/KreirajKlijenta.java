@@ -21,6 +21,9 @@ public class KreirajKlijenta extends AbstractSystemOperation<Klijent>   {
     @Override
     protected void executeOperation(Klijent entity) throws Exception {
         Klijent k = new Klijent();
+        k.setEmail("");
+        k.setPrezime("");
+        k.setIme("");
         this.operationResult = k;
     }
 }

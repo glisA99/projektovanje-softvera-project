@@ -42,7 +42,8 @@ public abstract class AbstractController<T extends JDialog> {
     protected Response sendRequest(Request request) throws Exception {
         session.Session session = Session.getInstance();
         new Sender(session.getSocket()).send(request);
-        return (Response) new Receiver(session.getSocket()).receive();
+        Response response = (Response) new Receiver(session.getSocket()).receive();
+        return response;
     }
 
 }

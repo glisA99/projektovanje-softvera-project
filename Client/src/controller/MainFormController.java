@@ -1,9 +1,11 @@
 package controller;
 
+import controller.clients.CreateClientController;
 import controller.clients.SearchClientsController;
 import controller.general.AbstractController;
 import forms.FrmMain;
-import forms.panels.dialogs.SearchClientsDialog;
+import forms.dialogs.CreateClientDialog;
+import forms.dialogs.SearchClientsDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -43,7 +45,13 @@ public class MainFormController {
             }
         });
         // Create client panel + controller
-
+        this.mainForm.getJmiKreirajKlijenta().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                controller = new CreateClientController(mainForm);
+                controller.initDialog(new CreateClientDialog(mainForm, true));
+            }
+        });
     }
 
     private void initProdajnaStavkaActionListeners() {
