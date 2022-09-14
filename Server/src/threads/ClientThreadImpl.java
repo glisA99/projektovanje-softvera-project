@@ -116,6 +116,8 @@ public class ClientThreadImpl extends ClientThread {
         try {
             Radnik radnik1 = Authentication.getInstance().login(radnik);
             response.setResponseType(ResponseType.SUCCESS);
+            radnik1.setUsername(radnik.getUsername());
+            radnik1.setPassword(radnik.getPassword());
             response.setResponse(radnik1);
         } catch (Exception ex) {
             Logger.getLogger(ClientThreadImpl.class.getName()).log(Level.SEVERE, null, ex);

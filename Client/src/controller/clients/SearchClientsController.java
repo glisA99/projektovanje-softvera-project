@@ -46,7 +46,6 @@ public class SearchClientsController extends AbstractController<SearchClientsDia
     }
 
     private void setSearchActionListener() {
-        System.out.println("");
         this.dialog.getBtnSearch().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {

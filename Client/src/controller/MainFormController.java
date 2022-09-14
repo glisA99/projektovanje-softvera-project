@@ -1,10 +1,13 @@
 package controller;
 
+import controller.artikls.SearchArtiklsController;
 import controller.clients.CreateClientController;
 import controller.clients.SearchClientsController;
 import controller.general.AbstractController;
+import domain.Radnik;
 import forms.FrmMain;
 import forms.dialogs.CreateClientDialog;
+import forms.dialogs.SearchArtiklsDialog;
 import forms.dialogs.SearchClientsDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,9 +20,11 @@ public class MainFormController {
 
     private FrmMain mainForm;
     private AbstractController controller;
+    private Radnik loggedRadnik;
 
-    public MainFormController() {
-        this.mainForm = new FrmMain();
+    public MainFormController(Radnik radnik) {
+        this.loggedRadnik = radnik;
+        this.mainForm = new FrmMain(radnik);
         initialize();
         this.mainForm.setVisible(true);
     }
@@ -31,7 +36,7 @@ public class MainFormController {
     private void initializeActionListeners() {
         initClientActionListeners();
 //        initProdajnaStavkaActionListeners();
-//        initArtiklActionListeners();
+        initArtiklActionListeners();
 //        initIzvestajActionListeners();
     }
 
@@ -59,11 +64,22 @@ public class MainFormController {
     }
 
     private void initArtiklActionListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Search artikls
+        this.mainForm.getJmiPretragaArtikala().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                controller = new SearchArtiklsController(mainForm);
+                controller.initDialog(new SearchArtiklsDialog(mainForm, true));
+            }
+        });
     }
 
     private void initIzvestajActionListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Radnik getLoggedRadnik() {
+        return loggedRadnik;
     }
 
 }

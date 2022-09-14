@@ -1,25 +1,32 @@
 package forms;
 
-import java.awt.Dimension;
+import domain.Radnik;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import threads.TimeThread;
 
 /**
  *
  * @author Ognjen Simic 2018/0093
  */
 public class FrmMain extends javax.swing.JFrame {
+    
+    private Thread timeThread;
 
     /**
      * Creates new form FrmMain
      */
-    public FrmMain() {
+    public FrmMain(Radnik radnik) {
         initComponents();
+        prepareView(radnik);
 //        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("BUTIK Application");
-        this.pnlMain.setPreferredSize(new Dimension(500,300));
+        timeThread = new TimeThread(lblDate,lblTime,lblDuration,new Date());
+        timeThread.start();
     }
 
     /**
@@ -33,36 +40,255 @@ public class FrmMain extends javax.swing.JFrame {
 
         jMenuItem1 = new javax.swing.JMenuItem();
         pnlMain = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblDate = new javax.swing.JLabel();
+        lblTime = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        btnLogou = new javax.swing.JButton();
+        lblFirstname = new javax.swing.JLabel();
+        lblLastname = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lblTimeOfLoggin = new javax.swing.JLabel();
+        lblDuration = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        lblLogo = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jmiKreirajKlijenta = new javax.swing.JMenuItem();
         jmiPretragaKlijenata = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
+        jmiKreirajProdajnuStavku = new javax.swing.JMenuItem();
+        jmiPretragaProdajnihStavki = new javax.swing.JMenuItem();
+        jmiBrisanjeProdajneStavke = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        jmiPretragaArtikala = new javax.swing.JMenuItem();
+        jmiKreiranjeArtikla = new javax.swing.JMenuItem();
+        jmiPromenaArtikla = new javax.swing.JMenuItem();
+        jmiBrisanjeArtikla = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        jmiKreiranjeIzvestaja = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Butik Application");
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Date&Time:"));
+
+        jLabel1.setText("Date:");
+
+        jLabel2.setText("Time:");
+
+        lblDate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDate.setText("jLabel3");
+
+        lblTime.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTime.setText("jLabel4");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTime, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblDate))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(lblTime))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Logged employee"));
+
+        jLabel3.setText("Firstname:");
+
+        jLabel4.setText("Lastname:");
+
+        jLabel5.setText("Username:");
+
+        btnLogou.setText("Logout");
+
+        lblFirstname.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblFirstname.setText("jLabel6");
+
+        lblLastname.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblLastname.setText("jLabel7");
+
+        lblUsername.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblUsername.setText("jLabel8");
+
+        jLabel6.setText("Time of loggin:");
+
+        jLabel7.setText("Session duration:");
+
+        lblTimeOfLoggin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTimeOfLoggin.setText("asdasd");
+
+        lblDuration.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDuration.setText("jLabel9");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblFirstname, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addComponent(lblLastname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLogou, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblTimeOfLoggin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblDuration, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(lblFirstname)))
+                    .addComponent(btnLogou))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lblLastname)
+                    .addComponent(jLabel6)
+                    .addComponent(lblTimeOfLoggin))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblUsername)
+                    .addComponent(jLabel7)
+                    .addComponent(lblDuration))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/fon_logo.png"))); // NOI18N
+        lblLogo.setText("jLabel8");
+        lblLogo.setMaximumSize(new java.awt.Dimension(500, 100));
+        lblLogo.setMinimumSize(new java.awt.Dimension(500, 100));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("FON");
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setText("Univerzitet u Beogradu - Fakultet organizacionih nauka");
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Ognjen Simic 2018/0093");
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Jove Ilica 154, 11000 Beograd");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addGap(51, 51, 51))
+        );
+
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 785, Short.MAX_VALUE)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(33, 33, 33)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -87,39 +313,39 @@ public class FrmMain extends javax.swing.JFrame {
         jMenu5.setText("Prodajna Stavka");
         jMenu5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jMenuItem9.setText("Kreiraj prodajnu stavku");
-        jMenu5.add(jMenuItem9);
+        jmiKreirajProdajnuStavku.setText("Kreiraj prodajnu stavku");
+        jMenu5.add(jmiKreirajProdajnuStavku);
 
-        jMenuItem10.setText("Pretraga prodajnih stavki");
-        jMenu5.add(jMenuItem10);
+        jmiPretragaProdajnihStavki.setText("Pretraga prodajnih stavki");
+        jMenu5.add(jmiPretragaProdajnihStavki);
 
-        jMenuItem11.setText("Brisanje prodajne stavke");
-        jMenu5.add(jMenuItem11);
+        jmiBrisanjeProdajneStavke.setText("Brisanje prodajne stavke");
+        jMenu5.add(jmiBrisanjeProdajneStavke);
 
         jMenuBar1.add(jMenu5);
 
         jMenu3.setText("Artikl");
         jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jMenuItem4.setText("Pretraga artikala");
-        jMenu3.add(jMenuItem4);
+        jmiPretragaArtikala.setText("Pretraga artikala");
+        jMenu3.add(jmiPretragaArtikala);
 
-        jMenuItem5.setText("Kreiranje novog artikla");
-        jMenu3.add(jMenuItem5);
+        jmiKreiranjeArtikla.setText("Kreiranje novog artikla");
+        jMenu3.add(jmiKreiranjeArtikla);
 
-        jMenuItem6.setText("Promena artikla");
-        jMenu3.add(jMenuItem6);
+        jmiPromenaArtikla.setText("Promena artikla");
+        jMenu3.add(jmiPromenaArtikla);
 
-        jMenuItem7.setText("Brisanje artikla");
-        jMenu3.add(jMenuItem7);
+        jmiBrisanjeArtikla.setText("Brisanje artikla");
+        jMenu3.add(jmiBrisanjeArtikla);
 
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Izvestaj");
         jMenu4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jMenuItem8.setText("Kreiranje izvestaja");
-        jMenu4.add(jMenuItem8);
+        jmiKreiranjeIzvestaja.setText("Kreiranje izvestaja");
+        jMenu4.add(jmiKreiranjeIzvestaja);
 
         jMenuBar1.add(jMenu4);
 
@@ -145,22 +371,45 @@ public class FrmMain extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogou;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JMenuItem jmiBrisanjeArtikla;
+    private javax.swing.JMenuItem jmiBrisanjeProdajneStavke;
     private javax.swing.JMenuItem jmiKreirajKlijenta;
+    private javax.swing.JMenuItem jmiKreirajProdajnuStavku;
+    private javax.swing.JMenuItem jmiKreiranjeArtikla;
+    private javax.swing.JMenuItem jmiKreiranjeIzvestaja;
+    private javax.swing.JMenuItem jmiPretragaArtikala;
     private javax.swing.JMenuItem jmiPretragaKlijenata;
+    private javax.swing.JMenuItem jmiPretragaProdajnihStavki;
+    private javax.swing.JMenuItem jmiPromenaArtikla;
+    private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblDuration;
+    private javax.swing.JLabel lblFirstname;
+    private javax.swing.JLabel lblLastname;
+    private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblTime;
+    private javax.swing.JLabel lblTimeOfLoggin;
+    private javax.swing.JLabel lblUsername;
     private javax.swing.JPanel pnlMain;
     // End of variables declaration//GEN-END:variables
 
@@ -221,67 +470,67 @@ public class FrmMain extends javax.swing.JFrame {
     }
 
     public JMenuItem getjMenuItem10() {
-        return jMenuItem10;
+        return jmiPretragaProdajnihStavki;
     }
 
     public void setjMenuItem10(JMenuItem jMenuItem10) {
-        this.jMenuItem10 = jMenuItem10;
+        this.jmiPretragaProdajnihStavki = jMenuItem10;
     }
 
     public JMenuItem getjMenuItem11() {
-        return jMenuItem11;
+        return jmiBrisanjeProdajneStavke;
     }
 
     public void setjMenuItem11(JMenuItem jMenuItem11) {
-        this.jMenuItem11 = jMenuItem11;
+        this.jmiBrisanjeProdajneStavke = jMenuItem11;
     }
 
     public JMenuItem getjMenuItem4() {
-        return jMenuItem4;
+        return jmiPretragaArtikala;
     }
 
     public void setjMenuItem4(JMenuItem jMenuItem4) {
-        this.jMenuItem4 = jMenuItem4;
+        this.jmiPretragaArtikala = jMenuItem4;
     }
 
     public JMenuItem getjMenuItem5() {
-        return jMenuItem5;
+        return jmiKreiranjeArtikla;
     }
 
     public void setjMenuItem5(JMenuItem jMenuItem5) {
-        this.jMenuItem5 = jMenuItem5;
+        this.jmiKreiranjeArtikla = jMenuItem5;
     }
 
     public JMenuItem getjMenuItem6() {
-        return jMenuItem6;
+        return jmiPromenaArtikla;
     }
 
     public void setjMenuItem6(JMenuItem jMenuItem6) {
-        this.jMenuItem6 = jMenuItem6;
+        this.jmiPromenaArtikla = jMenuItem6;
     }
 
     public JMenuItem getjMenuItem7() {
-        return jMenuItem7;
+        return jmiBrisanjeArtikla;
     }
 
     public void setjMenuItem7(JMenuItem jMenuItem7) {
-        this.jMenuItem7 = jMenuItem7;
+        this.jmiBrisanjeArtikla = jMenuItem7;
     }
 
     public JMenuItem getjMenuItem8() {
-        return jMenuItem8;
+        return jmiKreiranjeIzvestaja;
     }
 
     public void setjMenuItem8(JMenuItem jMenuItem8) {
-        this.jMenuItem8 = jMenuItem8;
+        this.jmiKreiranjeIzvestaja = jMenuItem8;
     }
 
     public JMenuItem getjMenuItem9() {
-        return jMenuItem9;
+        return jmiKreirajProdajnuStavku;
     }
 
     public void setjMenuItem9(JMenuItem jMenuItem9) {
-        this.jMenuItem9 = jMenuItem9;
+        this.jmiKreirajProdajnuStavku = jMenuItem9;
     }
 
     public JMenuItem getJmiKreirajKlijenta() {
@@ -298,6 +547,49 @@ public class FrmMain extends javax.swing.JFrame {
 
     public void setJmiPretragaKlijenata(JMenuItem jmiPretragaKlijenata) {
         this.jmiPretragaKlijenata = jmiPretragaKlijenata;
+    }
+
+    public JMenuItem getJmiBrisanjeArtikla() {
+        return jmiBrisanjeArtikla;
+    }
+
+    public JMenuItem getJmiBrisanjeProdajneStavke() {
+        return jmiBrisanjeProdajneStavke;
+    }
+
+    public JMenuItem getJmiKreirajProdajnuStavku() {
+        return jmiKreirajProdajnuStavku;
+    }
+
+    public JMenuItem getJmiKreiranjeArtikla() {
+        return jmiKreiranjeArtikla;
+    }
+
+    public JMenuItem getJmiKreiranjeIzvestaja() {
+        return jmiKreiranjeIzvestaja;
+    }
+
+    public JMenuItem getJmiPretragaArtikala() {
+        return jmiPretragaArtikala;
+    }
+
+    public JMenuItem getJmiPretragaProdajnihStavki() {
+        return jmiPretragaProdajnihStavki;
+    }
+
+    public JMenuItem getJmiPromenaArtikla() {
+        return jmiPromenaArtikla;
+    }
+    
+    
+
+    private void prepareView(Radnik radnik) {
+        lblFirstname.setText(radnik.getIme());
+        lblLastname.setText(radnik.getPrezime());
+        lblUsername.setText(radnik.getUsername());
+        System.out.println("Radnik username: " + radnik.getUsername());
+        
+        lblTimeOfLoggin.setText(new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
     }
 
 }

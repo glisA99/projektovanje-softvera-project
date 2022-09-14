@@ -53,7 +53,7 @@ public class LoginController {
                     Radnik radnik = login(username, password);
                     JOptionPane.showMessageDialog(loginForm, "Welcome, " + radnik.getIme() + "!");
                     loginForm.dispose();
-                    new MainFormController();
+                    new MainFormController(radnik);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     txtUsername.setText("");
