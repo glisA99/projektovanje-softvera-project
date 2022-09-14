@@ -15,6 +15,7 @@ public class SearchArtiklsDialog extends javax.swing.JDialog {
      */
     public SearchArtiklsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.setTitle("Search Artikls");
         initComponents();
     }
 
@@ -161,7 +162,7 @@ public class SearchArtiklsDialog extends javax.swing.JDialog {
                                 .addGap(137, 137, 137)
                                 .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jSeparator1)

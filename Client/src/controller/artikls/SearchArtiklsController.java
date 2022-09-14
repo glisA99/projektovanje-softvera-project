@@ -50,7 +50,7 @@ public class SearchArtiklsController extends AbstractController<SearchArtiklsDia
                 } catch (Exception ex) {
                     Logger.getLogger(SearchArtiklsController.class.getName()).log(Level.SEVERE, null, ex);
                     clearTable();
-                    JOptionPane.showMessageDialog(dialog, "Sistem ne moze da pronadje klijente po zadatim kriterijumima", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(dialog, "Sistem ne moze da pronadje artikle po zadatim kriterijumima", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

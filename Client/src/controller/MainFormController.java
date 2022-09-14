@@ -1,5 +1,6 @@
 package controller;
 
+import controller.artikls.DeleteArtiklController;
 import controller.artikls.SearchArtiklsController;
 import controller.clients.CreateClientController;
 import controller.clients.SearchClientsController;
@@ -7,6 +8,7 @@ import controller.general.AbstractController;
 import domain.Radnik;
 import forms.FrmMain;
 import forms.dialogs.CreateClientDialog;
+import forms.dialogs.DeleteArtiklDialog;
 import forms.dialogs.SearchArtiklsDialog;
 import forms.dialogs.SearchClientsDialog;
 import java.awt.event.ActionEvent;
@@ -70,6 +72,14 @@ public class MainFormController {
             public void actionPerformed(ActionEvent arg0) {
                 controller = new SearchArtiklsController(mainForm);
                 controller.initDialog(new SearchArtiklsDialog(mainForm, true));
+            }
+        });
+        // Delete artikl
+        this.mainForm.getJmiBrisanjeArtikla().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                controller = new DeleteArtiklController(mainForm);
+                controller.initDialog(new DeleteArtiklDialog(mainForm,true));
             }
         });
     }
