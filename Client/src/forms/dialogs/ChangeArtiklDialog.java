@@ -5,7 +5,6 @@
 package forms.dialogs;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -13,14 +12,14 @@ import javax.swing.JTextField;
  *
  * @author ognje
  */
-public class DeleteArtiklDialog extends javax.swing.JDialog {
+public class ChangeArtiklDialog extends javax.swing.JDialog {
 
     /**
-     * Creates new form DeleteArtiklDialog
+     * Creates new form ChangeArtiklDialog
      */
-    public DeleteArtiklDialog(java.awt.Frame parent, boolean modal) {
+    public ChangeArtiklDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.setTitle("Delete Artikl");
+        this.setTitle("Change Artikl");
         initComponents();
     }
 
@@ -33,6 +32,9 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtSifraSearch = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -51,14 +53,21 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
         txtProdajnaVrednost = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         lblProizvodjac = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        txtSifraSearch = new javax.swing.JTextField();
+        txtProizvodjac = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Change Artikl");
+
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Search artikls by SIFRA ARTIKLA:");
+
+        txtSifraSearch.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Artikl informations:"));
 
@@ -91,15 +100,21 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblProizvodjac, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblProizvodjac, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtProizvodjac))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblProizvodjac)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtProizvodjac)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -128,7 +143,7 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtVelicina, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                             .addComponent(txtStanje)))
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtProdajnaVrednost, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
@@ -172,18 +187,9 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Delete Artikl");
-
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Search artikls by SIFRA ARTIKLA:");
-
-        txtSifraSearch.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
         btnSearch.setText("Search");
 
-        btnDelete.setText("DELETE");
+        btnSave.setText("SAVE");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -200,7 +206,7 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
                                 .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 46, Short.MAX_VALUE)
+                                .addGap(0, 50, Short.MAX_VALUE)
                                 .addComponent(txtSifraSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(52, 52, 52))
                             .addGroup(layout.createSequentialGroup()
@@ -211,7 +217,7 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(229, 229, 229))
         );
         layout.setVerticalGroup(
@@ -233,57 +239,17 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DeleteArtiklDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DeleteArtiklDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DeleteArtiklDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DeleteArtiklDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DeleteArtiklDialog dialog = new DeleteArtiklDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -303,22 +269,19 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea txtOpis;
     private javax.swing.JTextField txtProdajnaCena;
     private javax.swing.JTextField txtProdajnaVrednost;
+    private javax.swing.JTextField txtProizvodjac;
     private javax.swing.JTextField txtSifraArtikla;
     private javax.swing.JTextField txtSifraSearch;
     private javax.swing.JTextField txtStanje;
     private javax.swing.JTextField txtVelicina;
     // End of variables declaration//GEN-END:variables
 
-    public JButton getBtnDelete() {
-        return btnDelete;
+    public JButton getBtnSave() {
+        return btnSave;
     }
 
     public JButton getBtnSearch() {
         return btnSearch;
-    }
-
-    public JLabel getLblProizvodjac() {
-        return lblProizvodjac;
     }
 
     public JTextField getTxtNazivArtikla() {
@@ -335,6 +298,10 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
 
     public JTextField getTxtProdajnaVrednost() {
         return txtProdajnaVrednost;
+    }
+
+    public JTextField getTxtProizvodjac() {
+        return txtProizvodjac;
     }
 
     public JTextField getTxtSifraArtikla() {
@@ -354,7 +321,5 @@ public class DeleteArtiklDialog extends javax.swing.JDialog {
     }
 
     
-    
+
 }
-
-
