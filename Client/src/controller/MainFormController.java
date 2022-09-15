@@ -7,11 +7,13 @@ import controller.artikls.SearchArtiklsController;
 import controller.clients.CreateClientController;
 import controller.clients.SearchClientsController;
 import controller.general.AbstractController;
+import controller.prodajnastavka.CreateProdajnaStavkaController;
 import domain.Radnik;
 import forms.FrmMain;
 import forms.dialogs.ChangeArtiklDialog;
 import forms.dialogs.CreateArtiklDialog;
 import forms.dialogs.CreateClientDialog;
+import forms.dialogs.CreateProdajnaStavkaDialog;
 import forms.dialogs.DeleteArtiklDialog;
 import forms.dialogs.SearchArtiklsDialog;
 import forms.dialogs.SearchClientsDialog;
@@ -41,7 +43,7 @@ public class MainFormController {
 
     private void initializeActionListeners() {
         initClientActionListeners();
-//        initProdajnaStavkaActionListeners();
+        initProdajnaStavkaActionListeners();
         initArtiklActionListeners();
 //        initIzvestajActionListeners();
     }
@@ -66,7 +68,14 @@ public class MainFormController {
     }
 
     private void initProdajnaStavkaActionListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Create prodajna stavka
+        this.mainForm.getJmiKreirajProdajnuStavku().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                controller = new CreateProdajnaStavkaController(mainForm);
+                controller.initDialog(new CreateProdajnaStavkaDialog(mainForm,true));
+            }
+        });
     }
 
     private void initArtiklActionListeners() {

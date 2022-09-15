@@ -31,9 +31,9 @@ public class PretraziArtikle extends AbstractSystemOperation<Artikl> {
         List<IEntity> entities;
         
         if (whereCondition.isEmpty()) {
-            entities = this.repository.findAllCustom(entity, whereCondition);
-        } else {
             entities = this.repository.findAll(entity);
+        } else {
+            entities = this.repository.findAllCustom(entity,whereCondition);
         }
         
         entities.forEach(_entity -> artikli.add((Artikl) _entity));

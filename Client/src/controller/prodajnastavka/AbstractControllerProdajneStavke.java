@@ -30,7 +30,6 @@ public abstract class AbstractControllerProdajneStavke<T extends JDialog> extend
     public List<Klijent> loadClients() throws Exception {
         Request request = new Request();
         request.setOperation(Operations.GET_ALL_CLIENTS);
-        request.setData(null);
         
         Response response = this.sendRequest(request);
         
@@ -43,7 +42,6 @@ public abstract class AbstractControllerProdajneStavke<T extends JDialog> extend
     public List<Artikl> loadArtikls() throws Exception {
         Request request = new Request();
         request.setOperation(Operations.GET_ARTIKLS);
-        request.setData(null);
         
         Response response = this.sendRequest(request);
         
@@ -56,7 +54,7 @@ public abstract class AbstractControllerProdajneStavke<T extends JDialog> extend
     public void validateProdajnaStavka(ProdajnaStavka prodajnaStavka) throws ValidationException {
         if (prodajnaStavka.getDatumProdaje() == null) throw new ValidationException("Datum prodaje ne moze biti null");
         if (prodajnaStavka.getDatumProdaje().after(new Date())) throw new ValidationException("Datum prodaje mora biti pre trenutnog datuma");
-        if (prodajnaStavka.getIznos().compareTo(BigDecimal.ZERO) != -1) throw new ValidationException("Iznos mora biti veci od nule!");
+        if (prodajnaStavka.getIznos().compareTo(BigDecimal.ZERO) != 1) throw new ValidationException("Iznos mora biti veci od nule!");
         if (prodajnaStavka.getKlijentID() == null) throw new ValidationException("Klijent ID ne moze biti null!");
         if (prodajnaStavka.getKolicina() <= 0) throw new ValidationException("Kolicina mora biti veca od nule!");
         if (prodajnaStavka.getRadnikJMBG() == null) throw new ValidationException("Radnik JMBG ne moze biti null!");

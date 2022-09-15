@@ -151,7 +151,10 @@ public class Artikl implements IEntity, Serializable {
         this.kolicinaNaStanju = kolicinaNaStanju;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return this.naziv;
+    }
+
     
 }

@@ -102,4 +102,11 @@ public class Klijent implements IEntity, Serializable {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return this.ime + " " + this.prezime;
+    }
+    
+    
+
 }

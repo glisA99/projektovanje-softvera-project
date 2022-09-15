@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -19,6 +20,8 @@ public class ProdajnaStavka implements IEntity, Serializable {
     private Long klijentID;
     private Long sifraArtikla;
     private String radnikJMBG;
+    
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
     public ProdajnaStavka() {
     }
@@ -45,12 +48,12 @@ public class ProdajnaStavka implements IEntity, Serializable {
 
     @Override
     public String getColumnNamesForInsert() {
-        return "ProdajnaStavkaID, DatumProdaje, Kolicina, Iznos, KlijentID, SifraArtikla, RadnikJMBG";
+        return "DatumProdaje, Kolicina, Iznos, KlijentID, SifraArtikla, RadnikJMBG";
     }
 
     @Override
     public String getColumnValuesForInsert() {
-        return this.prodajnaStavkaID + ", " + this.datumProdaje + ", " + this.kolicina + ", " + this.iznos + ", " + this.klijentID + ", " + this.sifraArtikla + ", '" + this.radnikJMBG + "'";
+        return "'" + sdf.format(this.datumProdaje) + "', " + this.kolicina + ", " + this.iznos + ", " + this.klijentID + ", " + this.sifraArtikla + ", '" + this.radnikJMBG + "'";
     }
 
     @Override
