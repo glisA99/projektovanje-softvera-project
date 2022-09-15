@@ -8,6 +8,7 @@ import controller.clients.CreateClientController;
 import controller.clients.SearchClientsController;
 import controller.general.AbstractController;
 import controller.prodajnastavka.CreateProdajnaStavkaController;
+import controller.prodajnastavka.SearchProdajneStavkeController;
 import domain.Radnik;
 import forms.FrmMain;
 import forms.dialogs.ChangeArtiklDialog;
@@ -17,6 +18,7 @@ import forms.dialogs.CreateProdajnaStavkaDialog;
 import forms.dialogs.DeleteArtiklDialog;
 import forms.dialogs.SearchArtiklsDialog;
 import forms.dialogs.SearchClientsDialog;
+import forms.dialogs.SearchProdajneStavkeDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -74,6 +76,14 @@ public class MainFormController {
             public void actionPerformed(ActionEvent arg0) {
                 controller = new CreateProdajnaStavkaController(mainForm);
                 controller.initDialog(new CreateProdajnaStavkaDialog(mainForm,true));
+            }
+        });
+        // Search prodaje stavke
+        this.mainForm.getJmiPretragaProdajnihStavki().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                controller = new SearchProdajneStavkeController(mainForm);
+                controller.initDialog(new SearchProdajneStavkeDialog(mainForm,true));
             }
         });
     }

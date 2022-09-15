@@ -28,6 +28,7 @@ public class PretraziProdajneStavke extends AbstractSystemOperation<ProdajnaStav
     protected void executeOperation(ProdajnaStavka entity) throws Exception {
         // Employee can search by StavkaID, DatumProdaje, Klijent or Artikl
         // if any of those is != null it will be included in WHERE condition
+        // (except Stavka ID)
         List<ProdajnaStavka> prodajneStavke = new ArrayList<>();
         String whereCondition = generateWhereCondition(entity);
         List<IEntity> entities;
