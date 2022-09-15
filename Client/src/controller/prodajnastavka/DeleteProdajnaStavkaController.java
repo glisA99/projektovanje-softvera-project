@@ -7,15 +7,13 @@ import communication.ResponseType;
 import domain.Artikl;
 import domain.Klijent;
 import domain.ProdajnaStavka;
-import domain.Radnik;
 import forms.FrmMain;
-import forms.dialogs.SearchProdajneStavkeDialog;
+import forms.dialogs.DeleteProdajnaStavkaDialog;
 import forms.models.ProdajnaStavkaTM;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,15 +24,15 @@ import javax.swing.JOptionPane;
  *
  * @author Ognjen Simic 2018/0093
  */
-public class SearchProdajneStavkeController extends AbstractControllerProdajneStavke<SearchProdajneStavkeDialog> {
-    
+public class DeleteProdajnaStavkaController extends AbstractControllerProdajneStavke<DeleteProdajnaStavkaDialog> {
+
     private List<ProdajnaStavka> _stavke = new ArrayList<>();
     private List<Klijent> _clients = new ArrayList<>();
     private List<Artikl> _artikls = new ArrayList<>();
-    
+
     private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
-    public SearchProdajneStavkeController(FrmMain form) {
+    public DeleteProdajnaStavkaController(FrmMain form) {
         super(form);
     }
 
@@ -50,39 +48,41 @@ public class SearchProdajneStavkeController extends AbstractControllerProdajneSt
         fillCbArtikls();
     }
 
-    protected void fillCbKlijents() throws Exception {
+    private void fillCbKlijents() throws Exception {
         List<Klijent> clients = this.loadClients();
         this._clients = clients;
         JComboBox cbClients = this.dialog.getCbKlijent();
         cbClients.removeAllItems();
-        for(int i = 0;i < clients.size();i++) {
+        for (int i = 0; i < clients.size(); i++) {
             cbClients.addItem(clients.get(i));
         }
     }
 
-    protected void fillCbArtikls() throws Exception {
+    private void fillCbArtikls() throws Exception {
         List<Artikl> artikls = this.loadArtikls();
         this._artikls = artikls;
         JComboBox cbArtikls = this.dialog.getCbArtikl();
         cbArtikls.removeAllItems();
-        for(int i = 0;i < artikls.size();i++) {
+        for (int i = 0; i < artikls.size(); i++) {
             cbArtikls.addItem(artikls.get(i));
         }
     }
-    
-    protected void prepareTableModel() {
-        ProdajnaStavkaTM tm = new ProdajnaStavkaTM(this._stavke,this._artikls,this._clients);
+
+    private void prepareTableModel() {
+        ProdajnaStavkaTM tm = new ProdajnaStavkaTM(this._stavke, this._artikls, this._clients);
         this.dialog.getTblStavke().setModel(tm);
     }
 
-    protected void setActionsListeners() {
+    private void setActionsListeners() {
         // Search
         this.dialog.getBtnSearch().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {
                     search();
-                    if (_stavke.size() == 0) throw new Exception("Nema stavki");
+                    if (_stavke.size() == 0) {
+                        throw new Exception("Nema stavki");
+                    }
                     JOptionPane.showMessageDialog(dialog, "Pretraga je zavrsena");
                 } catch (Exception ex) {
                     Logger.getLogger(SearchProdajneStavkeController.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,66 +90,114 @@ public class SearchProdajneStavkeController extends AbstractControllerProdajneSt
                 }
             }
         });
+        // Delete
+        this.dialog.getBtnDelete().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                int selected = dialog.getTblStavke().getSelectedRow();
+                if (selected != -1) {
+                    try {
+                        delete(selected);
+                        JOptionPane.showMessageDialog(dialog, "Sistem je obrisao prodajnu stavku");
+                    } catch (Exception ex) {
+                        Logger.getLogger(DeleteProdajnaStavkaController.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(dialog, "Sistem ne moze da izbrise prodajnu stavku", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(dialog, "There is no selected row", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
-    
-    protected void search() throws Exception {
+
+    private void search() throws Exception {
         ProdajnaStavka ps = createStavkaFromForm();
-        
+
         List<ProdajnaStavka> pstavke = sendSearchRequest(ps);
         this._stavke = pstavke;
-        
-        if (this._stavke.size() == 0) clearTable();
-        
+
+        if (this._stavke.size() == 0) {
+            clearTable();
+        }
+
         refreshTableView();
     }
 
-    protected ProdajnaStavka createStavkaFromForm() throws Exception {
+    private ProdajnaStavka createStavkaFromForm() throws Exception {
         ProdajnaStavka prodajnaStavka = new ProdajnaStavka();
-        
+
         String stavkaID = this.dialog.getTxtStavkaID().getText().trim();
-        if (!stavkaID.isEmpty()) prodajnaStavka.setProdajnaStavkaID(Long.parseLong(stavkaID));
-        
+        if (!stavkaID.isEmpty()) {
+            prodajnaStavka.setProdajnaStavkaID(Long.parseLong(stavkaID));
+        }
+
         String datumProdaje = this.dialog.getTxtDatumProdaje().getText().trim();
-        
+
         // try to parse date if available
-        if (datumProdaje != null && !datumProdaje.isEmpty()) prodajnaStavka.setDatumProdaje(sdf.parse(datumProdaje));
-        
+        if (datumProdaje != null && !datumProdaje.isEmpty()) {
+            prodajnaStavka.setDatumProdaje(sdf.parse(datumProdaje));
+        }
+
         // if artikl search param is active
         if (dialog.getCheckArtikl().isSelected()) {
             Artikl selectedArtikl = (Artikl) dialog.getCbArtikl().getSelectedItem();
             prodajnaStavka.setSifraArtikla(selectedArtikl.getSifraArtikla());
         }
-        
+
         // if klijent search param is active
         if (dialog.getCheckKlijent().isSelected()) {
             Klijent selectedKlijent = (Klijent) dialog.getCbKlijent().getSelectedItem();
             prodajnaStavka.setKlijentID(selectedKlijent.getKlijentID());
         }
-        
+
         return prodajnaStavka;
     }
 
-    protected List<ProdajnaStavka> sendSearchRequest(ProdajnaStavka ps) throws Exception {
+    private List<ProdajnaStavka> sendSearchRequest(ProdajnaStavka ps) throws Exception {
         Request request = new Request();
         request.setOperation(Operations.SEARCH_PRODAJNE_STAVKE);
         request.setData(ps);
-        
+
         Response response = this.sendRequest(request);
         if (response.getResponseType().equals(ResponseType.SUCCESS)) {
             return (List<ProdajnaStavka>) response.getResponse();
-        } else throw new Exception("Error searching stakve");
+        } else {
+            throw new Exception("Error searching stakve");
+        }
     }
 
-    protected void refreshTableView() {
+    private void refreshTableView() {
         ProdajnaStavkaTM tm = (ProdajnaStavkaTM) dialog.getTblStavke().getModel();
         tm.setStavke(this._stavke);
         tm.refresh();
     }
 
-    protected void clearTable() {
+    private void clearTable() {
         ProdajnaStavkaTM tm = (ProdajnaStavkaTM) dialog.getTblStavke().getModel();
         tm.setStavke(new ArrayList<>());
         tm.refresh();
     }
-    
+
+    private void delete(int selected) throws Exception {
+        ProdajnaStavkaTM tm = (ProdajnaStavkaTM) dialog.getTblStavke().getModel();
+        ProdajnaStavka prodajnaStavka = tm.getStavke().get(selected);
+        
+        sendDeleteRequest(prodajnaStavka);
+        
+        List<ProdajnaStavka> stavkas = tm.getStavke();
+        stavkas.remove(selected);
+        tm.refresh();
+    }
+
+    private void sendDeleteRequest(ProdajnaStavka prodajnaStavka) throws Exception {
+        Request request = new Request();
+        request.setOperation(Operations.DELETE_PRODAJNA_STAVKA);
+        request.setData(prodajnaStavka);
+        
+        Response response = this.sendRequest(request);
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+            return;
+        } else throw new Exception("Error deleting stavka");
+    }
+
 }
