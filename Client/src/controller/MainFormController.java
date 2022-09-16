@@ -7,6 +7,7 @@ import controller.artikls.SearchArtiklsController;
 import controller.clients.CreateClientController;
 import controller.clients.SearchClientsController;
 import controller.general.AbstractController;
+import controller.izvestaj.CreateIzvestajController;
 import controller.prodajnastavka.CreateProdajnaStavkaController;
 import controller.prodajnastavka.DeleteProdajnaStavkaController;
 import controller.prodajnastavka.SearchProdajneStavkeController;
@@ -15,6 +16,7 @@ import forms.FrmMain;
 import forms.dialogs.ChangeArtiklDialog;
 import forms.dialogs.CreateArtiklDialog;
 import forms.dialogs.CreateClientDialog;
+import forms.dialogs.CreateIzvestajDialog;
 import forms.dialogs.CreateProdajnaStavkaDialog;
 import forms.dialogs.DeleteArtiklDialog;
 import forms.dialogs.DeleteProdajnaStavkaDialog;
@@ -49,7 +51,7 @@ public class MainFormController {
         initClientActionListeners();
         initProdajnaStavkaActionListeners();
         initArtiklActionListeners();
-//        initIzvestajActionListeners();
+        initIzvestajActionListeners();
     }
 
     private void initClientActionListeners() {
@@ -134,7 +136,14 @@ public class MainFormController {
     }
 
     private void initIzvestajActionListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Create (generate)
+        this.mainForm.getJmiKreiranjeIzvestaja().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                controller = new CreateIzvestajController(mainForm);
+                controller.initDialog(new CreateIzvestajDialog(mainForm,true));
+            }
+        });
     }
 
     public Radnik getLoggedRadnik() {

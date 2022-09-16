@@ -19,14 +19,16 @@ public class StavkaIzvestaja implements IEntity, Serializable {
     private Long izvestajID;
     private int RB;
     private BigDecimal prihodStavke;
+    private Long prodajnaStavkaID;
 
     public StavkaIzvestaja() {
     }
 
-    public StavkaIzvestaja(Long izvestajID, int RB, BigDecimal prihodStavke) {
+    public StavkaIzvestaja(Long izvestajID, int RB, BigDecimal prihodStavke, Long prodajnaStavkaID) {
         this.izvestajID = izvestajID;
         this.RB = RB;
         this.prihodStavke = prihodStavke;
+        this.prodajnaStavkaID = prodajnaStavkaID;
     }
 
     public Long getIzvestajID() {
@@ -53,6 +55,14 @@ public class StavkaIzvestaja implements IEntity, Serializable {
         this.prihodStavke = prihodStavke;
     }
 
+    public Long getProdajnaStavkaID() {
+        return prodajnaStavkaID;
+    }
+
+    public void setProdajnaStavkaID(Long prodajnaStavkaID) {
+        this.prodajnaStavkaID = prodajnaStavkaID;
+    }
+
     @Override
     public String getTableName() {
         return "stavkaizvestaja";
@@ -65,17 +75,17 @@ public class StavkaIzvestaja implements IEntity, Serializable {
 
     @Override
     public String getColumnNamesForInsert() {
-        return "IzvestajID, RB, PrihodStavke";
+        return "IzvestajID, RB, PrihodStavke, ProdajnaStavkaID";
     }
 
     @Override
     public String getColumnValuesForInsert() {
-        return this.izvestajID + ", " + this.RB + ", " + this.prihodStavke;
+        return this.izvestajID + ", " + this.RB + ", " + this.prihodStavke + ", " + this.prodajnaStavkaID;
     }
 
     @Override
     public String getColumnValuesForUpdate() {
-        return "IzvestajID = " + this.izvestajID + ", RB = " + this.RB + ", PrihodStavke = " + this.prihodStavke; 
+        return "IzvestajID = " + this.izvestajID + ", RB = " + this.RB + ", PrihodStavke = " + this.prihodStavke + ", ProdajnaStavkaID = " + this.prodajnaStavkaID; 
     }
 
     @Override
@@ -84,6 +94,7 @@ public class StavkaIzvestaja implements IEntity, Serializable {
         stavkaIzvestaja.setIzvestajID(rs.getLong("IzvestajID"));
         stavkaIzvestaja.setRB(rs.getInt("RB"));
         stavkaIzvestaja.setPrihodStavke(rs.getBigDecimal("PrihodStavke"));
+        stavkaIzvestaja.setProdajnaStavkaID(rs.getLong("ProdajnaStavkaID"));
         return stavkaIzvestaja;
     }
 
@@ -96,7 +107,5 @@ public class StavkaIzvestaja implements IEntity, Serializable {
     public void setAutoincrementId(Long id) {
         return;
     }
-    
-    
     
 }
