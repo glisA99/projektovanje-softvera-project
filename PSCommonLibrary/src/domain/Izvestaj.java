@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +21,10 @@ public class Izvestaj implements IEntity, Serializable {
     private BigDecimal ukupanPrihod;
     private String radnikJMBG;
     private List<StavkaIzvestaja> stavke;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
     public Izvestaj() {
+        
     }
 
     public Izvestaj(Long izvestajID, Date datumKreiranja, Date datumOd, Date datumDo, BigDecimal ukupanPrihod, String radnikJMBG) {
@@ -57,19 +60,19 @@ public class Izvestaj implements IEntity, Serializable {
 
     @Override
     public String getColumnNamesForInsert() {
-        return "IzvestajID, DatumKreiranja, DatumOd, DatumDo, UkupanPrihod, RadnikJMBG";
+        return "DatumKreiranja, DatumOd, DatumDo, UkupanPrihod, RadnikJMBG";
     }
 
     @Override
     public String getColumnValuesForInsert() {
-        return this.izvestajID + ", " + this.datumKreiranja + ", " + this.datumOd + ", " + this.datumDo + ", "
+        return "'" + sdf.format(this.datumKreiranja) + "', '" + sdf.format(this.datumOd) + "', '" + sdf.format(this.datumDo) + "', "
                 + this.ukupanPrihod + ", '" + this.radnikJMBG + "'";
     }
 
     @Override
     public String getColumnValuesForUpdate() {
-        return "IzvestajID = " + this.izvestajID + ", DatumKreiranja = " + this.datumKreiranja
-                + ", DatumOd = " + this.datumOd + ", DatumDo = " + this.datumDo + ", UkupanPrihod = " + this.ukupanPrihod
+        return "IzvestajID = " + this.izvestajID + ", DatumKreiranja = '" + sdf.format(this.datumKreiranja)
+                + "', DatumOd = '" + sdf.format(this.datumOd) + "', DatumDo = '" + sdf.format(this.datumDo) + "', UkupanPrihod = " + this.ukupanPrihod
                 + ", RadnikJMBG = '" + this.radnikJMBG + "'";
     }
 

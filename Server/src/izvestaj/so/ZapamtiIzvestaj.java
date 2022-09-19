@@ -23,7 +23,7 @@ public class ZapamtiIzvestaj extends AbstractSystemOperation<Izvestaj> {
         // if datum do is not specified, use current date
         if (entity.getDatumDo() == null) entity.setDatumDo(new Date());
         if (entity.getRadnikJMBG() == null) throw new Exception("Radnik JMBG ne moze biti null!");
-        if (entity.getDatumOd().before(entity.getDatumDo())) {
+        if (entity.getDatumOd().after(entity.getDatumDo())) {
             throw new Exception("DatumOd mora biti pre datuma DatumDo!");
         }
         if (entity.getDatumDo().after(new Date())) {
@@ -38,7 +38,7 @@ public class ZapamtiIzvestaj extends AbstractSystemOperation<Izvestaj> {
         Izvestaj izvestaj = (Izvestaj) this.repository.save(entity);
         
         Long generatedID = izvestaj.getIzvestajID();
-        List<StavkaIzvestaja> stavke = izvestaj.getStavke();
+        List<StavkaIzvestaja> stavke = entity.getStavke();
         for(int i = 0;i < stavke.size();i++) {
             StavkaIzvestaja stavka = stavke.get(i);
             stavka.setRB(i);

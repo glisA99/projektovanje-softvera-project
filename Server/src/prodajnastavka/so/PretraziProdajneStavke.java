@@ -13,7 +13,7 @@ import so.AbstractSystemOperation;
  */
 public class PretraziProdajneStavke extends AbstractSystemOperation<ProdajnaStavka>  {
     
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD");
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public PretraziProdajneStavke() throws Exception {
         super();

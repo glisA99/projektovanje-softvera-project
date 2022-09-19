@@ -44,12 +44,14 @@ public abstract class AbstractSystemOperation<T> {
         connection.setAutoCommit(false);
     }
 
-    private void commitTransaction() throws SQLException {
+    private void commitTransaction() throws Exception {
         connection.commit();
+        ConnectionFactory.getInstance().releaseConnection(connection);
     }
 
-    private void rollbackTransaction() throws SQLException {
+    private void rollbackTransaction() throws Exception {
         connection.rollback();
+        ConnectionFactory.getInstance().releaseConnection(connection);
     }
 
 }

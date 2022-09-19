@@ -12,12 +12,14 @@ import forms.dialogs.CreateIzvestajDialog;
 import forms.models.StavkaTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,6 +40,7 @@ public class CreateIzvestajController extends AbstractIzvestajController<CreateI
         disableViewInputs();
         setTableModel();
         disableSaveCancelBtns();
+        setRadnik();
         setActionListeners();
     }
 
@@ -49,9 +52,9 @@ public class CreateIzvestajController extends AbstractIzvestajController<CreateI
         dialog.getTxtBrojStavki().setEnabled(false);
         dialog.getTxtUkupanPrihod().setEnabled(false);
         dialog.getTxtFirstname().setEnabled(false);
-        dialog.getTxtFirstname().setEnabled(false);
         dialog.getTxtFirstnameIZV().setEnabled(false);
         dialog.getTxtLastnameIZV().setEnabled(false);
+        dialog.getTxtLastname().setEnabled(false);
     }
     
     private void disableSaveCancelBtns() {
@@ -76,8 +79,10 @@ public class CreateIzvestajController extends AbstractIzvestajController<CreateI
             public void actionPerformed(ActionEvent arg0) {
                 try {
                     create();
+                    JOptionPane.showMessageDialog(dialog, "Sistem je kreirao izvestaj");
                 } catch (Exception ex) {
                     Logger.getLogger(CreateIzvestajController.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(dialog, "Sistem ne moze da kreira izvestaj", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -85,14 +90,21 @@ public class CreateIzvestajController extends AbstractIzvestajController<CreateI
         dialog.getBtnSave().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    save();
+                    JOptionPane.showMessageDialog(dialog, "Sistem je sacuvao izvestaj");
+                } catch (Exception ex) {
+                    Logger.getLogger(CreateIzvestajController.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(dialog, "Sistem ne moze da sacuva izvestaj", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         // Cancel
         dialog.getBtnCancel().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                cancel();
+                JOptionPane.showMessageDialog(dialog, "Sistem je uspesno prekinuo cuvanje izvestaja");
             }
         });
     }
@@ -122,7 +134,7 @@ public class CreateIzvestajController extends AbstractIzvestajController<CreateI
         if (datumOd.isEmpty()) throw new Exception("DatumOd ne moze biti prazno!");
         
         Date datumOdDate = sdf.parse(datumOd);
-        Date datumDoDate = null;
+        Date datumDoDate = new Date();
         if (!datumDo.isEmpty()) sdf.parse(datumDo);
         String radnikJMBG = radnik.getJmbg();
         
@@ -141,7 +153,7 @@ public class CreateIzvestajController extends AbstractIzvestajController<CreateI
         Response response = this.sendRequest(request);
         if (response.getResponseType().equals(ResponseType.SUCCESS)) {
             return (Izvestaj) response.getResponse();
-        } else throw new Exception("Greska prilikom generisanje izvestaja");
+        } else throw new Exception(response.getException().getMessage());
     }
 
     private void refreshTable() {
@@ -151,7 +163,6 @@ public class CreateIzvestajController extends AbstractIzvestajController<CreateI
     }
 
     private void populateInformations(Izvestaj izv) {
-        dialog.getTxtIzvestajID().setText(izv.getIzvestajID().toString());
         dialog.getTxtDatumOd().setText(sdf.format(izv.getDatumOd()));
         dialog.getTxtDatumDo().setText(sdf.format(izv.getDatumDo()));
         dialog.getTxtFirstnameIZV().setText(dialog.getTxtFirstname().getText());
@@ -159,6 +170,45 @@ public class CreateIzvestajController extends AbstractIzvestajController<CreateI
         dialog.getTxtDatumKreiranja().setText(sdf.format(izv.getDatumKreiranja()));
         dialog.getTxtBrojStavki().setText(String.valueOf(izv.getStavke().size()));
         dialog.getTxtUkupanPrihod().setText(izv.getUkupanPrihod().toString());
+    }
+
+    private void setRadnik() throws IOException {
+        Radnik radnik = session.Session.getInstance().getLoggedRadnik();
+        dialog.getTxtFirstname().setText(radnik.getIme());
+        dialog.getTxtLastname().setText(radnik.getPrezime());
+    }
+    
+    public void cancel() {
+        clearInformations();
+        this.dialog.getBtnGenerate().setEnabled(true);
+        disableSaveCancelBtns();
+    }
+
+    private void clearInformations() {
+        dialog.getTxtDatumOd().setText("");
+        dialog.getTxtDatumDo().setText("");
+        dialog.getTxtFirstnameIZV().setText("");
+        dialog.getTxtLastnameIZV().setText("");
+        dialog.getTxtDatumKreiranja().setText("");
+        dialog.getTxtBrojStavki().setText("");
+        dialog.getTxtUkupanPrihod().setText("");
+    }
+    
+    public void save() throws Exception {
+        sendSaveRequest();
+        
+        cancel();
+    }
+
+    private void sendSaveRequest() throws Exception {
+        Request request = new Request();
+        request.setOperation(Operations.SAVE_IZVESTAJ);
+        request.setData(this._izvestaj);
+        
+        Response response = this.sendRequest(request);
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+            return;
+        } else throw new Exception(response.getException().getMessage());
     }
     
 }
