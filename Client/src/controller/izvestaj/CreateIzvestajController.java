@@ -135,7 +135,7 @@ public class CreateIzvestajController extends AbstractIzvestajController<CreateI
         
         Date datumOdDate = sdf.parse(datumOd);
         Date datumDoDate = new Date();
-        if (!datumDo.isEmpty()) sdf.parse(datumDo);
+        if (!datumDo.isEmpty()) datumDoDate = sdf.parse(datumDo);
         String radnikJMBG = radnik.getJmbg();
         
         izvestaj.setDatumDo(datumDoDate);
