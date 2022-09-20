@@ -44,7 +44,4 @@ public class Response implements Serializable {
     public void setException(Exception exception) {
         this.exception = exception;
     }
-    
-    
-    
 }
